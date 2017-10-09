@@ -8,4 +8,4 @@ If you're on macOS, you'll need to add the VM argument '-XstartOnFirstThread' to
 
 # Contributors
 
-Audrey Randall, Peter Gutenko, Chance Roberts, ???
+Audrey Randall, Peter Gutenko, Chance Roberts, Tarah Peltz
