@@ -1,5 +1,5 @@
 # OOP-game-dev
-Yay, we have code in here now.
+Yay, we have code in here now!
 
 ### Build requirements
 The example file has three libraries as dependencies, the jar files in the lib/ directory.
