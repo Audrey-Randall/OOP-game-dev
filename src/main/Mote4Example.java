@@ -37,8 +37,8 @@ public class Mote4Example implements Scene {
         // default windowed resolution, window can be freely resized by default
         Window.initWindowedPercent(.75, 16.0/9.0);
         //Window.initFullscreen();
+
         Window.setVsync(true);
-        Window.displayDeltaInTitle(true);
 
         //glfwSetWindowAspectRatio(Window.getWindowID(), 16, 9);
         glfwSetWindowSizeLimits(Window.getWindowID(), 640, 480, GLFW_DONT_CARE, GLFW_DONT_CARE);
