@@ -1,6 +1,7 @@
 package game.component.sprite;
 
 import game.Entity;
+import mote4.util.ErrorUtils;
 import mote4.util.matrix.ModelMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.texture.Texture;

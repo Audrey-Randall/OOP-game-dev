@@ -1,1 +1,2 @@
-rat	    entity_rat
+rat		entity_rat
+tileset		tileset

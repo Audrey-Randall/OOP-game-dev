@@ -5,6 +5,7 @@ import game.component.collider.*;
 import game.component.sprite.*;
 import mote4.scenegraph.Scene;
 import mote4.util.matrix.ProjectionMatrix;
+import mote4.util.shader.ShaderMap;
 import mote4.util.texture.TextureMap;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class GameWorld implements Scene {
         projection = new ProjectionMatrix();
 
         entities.add(new Entity(
+                new Tilemap(TextureMap.get("tileset")),
+                new EmptyBehavior(),
+                new EmptyCollider()
+        ));
+        entities.add(new Entity(
                 new StaticSprite(TextureMap.get("entity_rat"), 64, 64),
                 new TestBehavior(),
                 new EmptyCollider()
@@ -40,7 +46,6 @@ public class GameWorld implements Scene {
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        projection.bind();
         for (Entity e : entities)
             e.render();
     }
@@ -50,6 +55,11 @@ public class GameWorld implements Scene {
         double aspectRatio = w/(double)h;
         int right = (int)(480*aspectRatio);
         projection.setOrthographic(0,0,right,480,-1,1);
+
+        ShaderMap.use("texture");
+        projection.bind();
+        ShaderMap.use("spritesheet");
+        projection.bind();
     }
 
     @Override
