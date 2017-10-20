@@ -3,6 +3,7 @@ package game;
 import game.component.behavior.*;
 import game.component.collider.*;
 import game.component.sprite.*;
+import menu.MenuHandler;
 import mote4.scenegraph.Scene;
 import mote4.util.matrix.ProjectionMatrix;
 import mote4.util.shader.ShaderMap;
@@ -17,12 +18,13 @@ import static org.lwjgl.opengl.GL11.glClear;
 public class GameWorld implements Scene {
 
     private ProjectionMatrix projection;
-
     private List<Entity> entities;
+    private MenuHandler menuHandler;
 
     public GameWorld() {
-        entities = new ArrayList<>();
         projection = new ProjectionMatrix();
+        entities = new ArrayList<>();
+        menuHandler = new MenuHandler();
 
         entities.add(new Entity(
                 new Tilemap(TextureMap.get("tileset")),
@@ -40,6 +42,8 @@ public class GameWorld implements Scene {
     public void update(double time, double delta) {
         for (Entity e : entities)
             e.update();
+
+        menuHandler.update();
     }
 
     @Override
@@ -48,6 +52,8 @@ public class GameWorld implements Scene {
 
         for (Entity e : entities)
             e.render();
+
+        menuHandler.render();
     }
 
     @Override

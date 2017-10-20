@@ -1,2 +1,3 @@
-rat		entity_rat
-tileset		tileset
+rat				entity_rat
+tileset				tileset
+font/misterpixel/misterpixel	font_1

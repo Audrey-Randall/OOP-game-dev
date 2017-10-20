@@ -44,7 +44,7 @@ public class Input {
 
     public static boolean isKeyNew(Key k) {
         boolean b =  isNew[k.index];
-        isNew[k.index] = false;
+        isNew[k.index] = false; // TODO this may be unnecessary since isNew ignores GLFW_REPEAT
         return b;
     }
 

@@ -5,6 +5,7 @@ import mote4.scenegraph.Window;
 import mote4.util.ErrorUtils;
 import mote4.util.shader.ShaderUtils;
 import mote4.util.texture.TextureMap;
+import mote4.util.vertex.FontUtils;
 import mote4.util.vertex.builder.StaticMeshBuilder;
 import mote4.util.vertex.mesh.Mesh;
 import mote4.util.vertex.mesh.MeshMap;
@@ -36,9 +37,10 @@ public class Main {
 
     private static void loadResources() {
         TextureMap.loadIndex("index.txt");
-        //ShaderUtils.loadIndex("index.txt");
-        ShaderUtils.addProgram("texture.vert","texture.frag","texture");
-        ShaderUtils.addProgram("spritesheet.vert","spritesheet.frag","spritesheet");
+        ShaderUtils.loadIndex("index.txt");
+
+        FontUtils.loadMetric("font/misterpixel/misterpixel_metric","font_1");
+        FontUtils.useMetric("font_1");
 
         Mesh quad = StaticMeshBuilder.constructVAO(GL_TRIANGLE_STRIP,
                 2,new float[] {0,0, 0,1, 1,0, 1,1},
