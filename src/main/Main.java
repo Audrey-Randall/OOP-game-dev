@@ -12,7 +12,6 @@ import mote4.util.vertex.mesh.MeshMap;
 import static org.lwjgl.glfw.GLFW.GLFW_DONT_CARE;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeLimits;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 
 public class Main {
 
@@ -29,6 +28,7 @@ public class Main {
         //glEnable(GL_CULL_FACE);
 
         loadResources();
+        Input.createKeyCallback();
 
         Window.addScene(new GameWorld());
         Window.loop();

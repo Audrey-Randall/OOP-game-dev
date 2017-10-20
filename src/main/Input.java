@@ -13,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
  */
 public class Input {
     
-    public enum Keys {
+    public enum Key {
         YES(0),
         NO(1),
         UP(2),
@@ -23,10 +23,10 @@ public class Input {
         SPRINT(6),
         BACKSPACE(7),
         ENTER(8),
-        ESC(13);
+        ESC(9);
         
         int index;
-        Keys(int i) {
+        Key(int i) {
             index = i;
         }
     }
@@ -34,15 +34,15 @@ public class Input {
     private static boolean[] isNew, isDown;
     
     static {
-        isNew  = new boolean[Keys.values().length];
-        isDown = new boolean[Keys.values().length];
+        isNew  = new boolean[Key.values().length];
+        isDown = new boolean[Key.values().length];
     }
 
-    public static boolean isKeyDown(Keys k) {
+    public static boolean isKeyDown(Key k) {
         return isDown[k.index];
     }
 
-    public static boolean isKeyNew(Keys k) {
+    public static boolean isKeyNew(Key k) {
         boolean b =  isNew[k.index];
         isNew[k.index] = false;
         return b;
@@ -61,43 +61,43 @@ public class Input {
             // action is GLFW_PRESS, GLFW_REPEAT, or GLFW_RELEASE
             switch (key) {
                 case GLFW_KEY_Z:
-                    callbackAction(action, Keys.YES);
+                    callbackAction(action, Key.YES);
                     break;
                 case GLFW_KEY_X:
-                    callbackAction(action, Keys.NO);
+                    callbackAction(action, Key.NO);
                     break;
                 case GLFW_KEY_W:
                 case GLFW_KEY_UP:
-                    callbackAction(action, Keys.UP);
+                    callbackAction(action, Key.UP);
                     break;
                 case GLFW_KEY_S:
                 case GLFW_KEY_DOWN:
-                    callbackAction(action, Keys.DOWN);
+                    callbackAction(action, Key.DOWN);
                     break;
                 case GLFW_KEY_A:
                 case GLFW_KEY_LEFT:
-                    callbackAction(action, Keys.LEFT);
+                    callbackAction(action, Key.LEFT);
                     break;
                 case GLFW_KEY_D:
                 case GLFW_KEY_RIGHT:
-                    callbackAction(action, Keys.RIGHT);
+                    callbackAction(action, Key.RIGHT);
                     break;
                 case GLFW_KEY_LEFT_SHIFT:
-                    callbackAction(action, Keys.SPRINT);
+                    callbackAction(action, Key.SPRINT);
                     break;
                 case GLFW_KEY_BACKSPACE:
-                    callbackAction(action, Keys.BACKSPACE);
+                    callbackAction(action, Key.BACKSPACE);
                     break;
                 case GLFW_KEY_ENTER:
-                    callbackAction(action, Keys.ENTER);
+                    callbackAction(action, Key.ENTER);
                     break;
                 case GLFW_KEY_ESCAPE:
-                    callbackAction(action, Keys.ESC);
+                    callbackAction(action, Key.ESC);
                     break;
             }
         });
     }
-    private static void callbackAction(int action, Keys key) {
+    private static void callbackAction(int action, Key key) {
         isNew[key.index] = (action == GLFW_PRESS);
         isDown[key.index] = (action != GLFW_RELEASE);
     }
