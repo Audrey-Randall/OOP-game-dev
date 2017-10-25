@@ -30,15 +30,18 @@
         <Name>PlayerBehavior</Name>
         <Access>Public</Access>
         <Location left="856" top="369" />
-        <Size width="226" height="216" />
+        <Size width="226" height="247" />
         <Collapsed>False</Collapsed>
         <Member type="Field">int health</Member>
+        <Member type="Field">int score</Member>
         <Member type="Property">public list&lt;Behavior&gt; characters { get; set; }</Member>
+        <Member type="Method">public void adjustScore(int amt)</Member>
         <Member type="Method">public void switchCharacter(int newChar)</Member>
         <Member type="Method">public void tickHealth()</Member>
         <Member type="Method">public void move(int direction)</Member>
         <Member type="Method">public void eatFood()</Member>
         <Member type="Method">public void boostHealth(int amt)</Member>
+        <Member type="Method">public void writeScoreToDB()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -304,6 +307,7 @@
         <Member type="Method">public void restartGame()</Member>
         <Member type="Method">public void exit()</Member>
         <Member type="Method">public void newGame()</Member>
+        <Member type="Method">public void setUsername()</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
@@ -311,6 +315,10 @@
       <Relationship type="Generalization" first="2" second="1">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1056</X>
+          <Y>282</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="3" second="1">
         <StartOrientation>Vertical</StartOrientation>
@@ -330,6 +338,10 @@
         <BendPoint relativeToStartShape="True">
           <X>1601</X>
           <Y>343</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1270</X>
+          <Y>312</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="6" second="0">
@@ -363,6 +375,10 @@
           <X>1785</X>
           <Y>336</Y>
         </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1268</X>
+          <Y>298</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="12" second="1">
         <StartOrientation>Vertical</StartOrientation>
@@ -370,6 +386,10 @@
         <BendPoint relativeToStartShape="True">
           <X>1978</X>
           <Y>329</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1270</X>
+          <Y>284</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="14" second="13">
