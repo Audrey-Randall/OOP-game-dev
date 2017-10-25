@@ -37,12 +37,12 @@ public class Mote4Example implements Scene {
         // default windowed resolution, window can be freely resized by default
         Window.initWindowedPercent(.75, 16.0/9.0);
         //Window.initFullscreen();
+
         Window.setVsync(true);
-        Window.displayDeltaInTitle(true);
 
         //glfwSetWindowAspectRatio(Window.getWindowID(), 16, 9);
         glfwSetWindowSizeLimits(Window.getWindowID(), 640, 480, GLFW_DONT_CARE, GLFW_DONT_CARE);
-
+        
         //Window.setCursorHidden(true);
         Window.setTitle("Engine Test");
         Window.displayDeltaInTitle(true); // displays delta time in window title, overrides previous line
@@ -55,7 +55,7 @@ public class Mote4Example implements Scene {
         Window.loop(60); // run the game loop, default 60fps
     }
 
-    private static void loadResources()
+    private static void loadResources() 
     {
         // create a shader
         // first two arguments are source files, last argument is the shader's handle
@@ -66,7 +66,7 @@ public class Mote4Example implements Scene {
         TextureMap.load("mote/font/misterpixel", "font").filter(false);
         // character width metrics for a font
         FontUtils.loadMetric("mote/font/misterpixel_metric","misterpixel");
-
+        
         // load a .obj file into the game, boolean value is whether the model should be centered
         Mesh mesh = StaticMeshBuilder.constructVAOFromOBJ("mote/cube", false);
         MeshMap.add(mesh, "test_model");
@@ -116,13 +116,13 @@ public class Mote4Example implements Scene {
     private static boolean filter = true;
 
     /////////////////////////////////////////////
-
+    
     private Transform transform3D, transform2D;
     private Mesh text;
     private double[] deltas = new double[120];
     private int deltaInd = 0;
 
-    public Mote4Example()
+    public Mote4Example() 
     {
         // transformation matrices
         // a Transform has a model, view, and projection matrix
@@ -160,15 +160,12 @@ public class Mote4Example implements Scene {
         glEnable(GL_DEPTH_TEST);
         ShaderMap.use("texture");
         transform3D.bind(); // transform will bind to the CURRENT shader only
-        /*if (filter)
-            TextureMap.bindFiltered("test_tex");
-        else
-            TextureMap.bindUnfiltered("test_tex");*/
         TextureMap.bind("test_tex");
         MeshMap.render("test_model");
 
         // render the framerate graph
         // only the model matrix is bound to this shader
+        glDisable(GL_DEPTH_TEST);
         ShaderMap.use("color");
         for (int i = 0; i < deltas.length; i++)
         {
@@ -182,7 +179,6 @@ public class Mote4Example implements Scene {
         }
 
         // render text
-        glEnable(GL_DEPTH_TEST);
         ShaderMap.use("texture");
         TextureMap.bind("font");
         transform2D.bind();
@@ -190,7 +186,7 @@ public class Mote4Example implements Scene {
     }
 
     @Override
-    public void framebufferResized(int width, int height)
+    public void framebufferResized(int width, int height) 
     {
         // called every time the screen is resized, and called once at program start
 
@@ -207,5 +203,5 @@ public class Mote4Example implements Scene {
         // called when the game loop exits
         text.destroy();
     }
-
+    
 }
