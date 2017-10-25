@@ -47,23 +47,26 @@
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void playDead()</Member>
+        <Member type="Method">public void climb()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>RatBehavior</Name>
         <Access>Public</Access>
-        <Location left="1322" top="362" />
+        <Location left="1322" top="369" />
         <Size width="162" height="216" />
-        <Collapsed>True</Collapsed>
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void climb()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>RaccoonBehavior</Name>
         <Access>Public</Access>
-        <Location left="1521" top="363" />
+        <Location left="1521" top="369" />
         <Size width="165" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void clawThroughBarrier()</Member>
+        <Member type="Method">public void climb()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -119,7 +122,7 @@
       <Entity type="Class">
         <Name>CoinBehavior</Name>
         <Access>Public</Access>
-        <Location left="1703" top="369" />
+        <Location left="1703" top="362" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void animate()</Member>
@@ -246,6 +249,7 @@
         <Member type="Property">public list&lt;Entity&gt; enemies { get; set; }</Member>
         <Member type="Property">public list&lt;Entity&gt; features { get; set; }</Member>
         <Member type="Property">public Entity player { get; set; }</Member>
+        <Member type="Property">public list&lt;Equipment&gt; allItems { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -255,6 +259,24 @@
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void render()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Equipment</Name>
+        <Access>Public</Access>
+        <Location left="2199" top="953" />
+        <Size width="162" height="247" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String type</Member>
+        <Member type="Field">bool unlocked</Member>
+        <Member type="Field">bool currentlyEquipped</Member>
+        <Member type="Property">public Sprite sprite { get; set; }</Member>
+        <Member type="Method">public void equip()</Member>
+        <Member type="Method">public void dequip()</Member>
+        <Member type="Property">public int posX { get; set; }</Member>
+        <Member type="Property">public int posY { get; set; }</Member>
+        <Member type="Property">public int width { get; set; }</Member>
+        <Member type="Property">public int height { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
     </Entities>
@@ -272,7 +294,7 @@
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>1403</X>
-          <Y>337</Y>
+          <Y>344</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="5" second="1">
@@ -280,7 +302,7 @@
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>1601</X>
-          <Y>337</Y>
+          <Y>343</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="6" second="0">
@@ -312,7 +334,7 @@
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>1785</X>
-          <Y>343</Y>
+          <Y>336</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="12" second="1">
@@ -496,6 +518,26 @@
           <X>439</X>
           <Y>195</Y>
         </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="19" second="25">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>995</X>
+          <Y>1293</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="23" second="25">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Association</AssociationType>
       </Relationship>
