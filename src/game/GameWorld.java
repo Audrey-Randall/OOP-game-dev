@@ -3,6 +3,7 @@ package game;
 import game.component.behavior.*;
 import game.component.collider.*;
 import game.component.sprite.*;
+import main.Input;
 import menu.MenuHandler;
 import mote4.scenegraph.Scene;
 import mote4.util.matrix.ProjectionMatrix;
@@ -21,29 +22,49 @@ public class GameWorld implements Scene {
     private List<Entity> entities;
     private MenuHandler menuHandler;
 
+    private boolean gamePaused;
+
     public GameWorld() {
         projection = new ProjectionMatrix();
         entities = new ArrayList<>();
         menuHandler = new MenuHandler();
 
+        gamePaused = false;
+
         entities.add(new Entity(
                 new Tilemap(TextureMap.get("tileset")),
                 new EmptyBehavior(),
-                new EmptyCollider()
+                new TilemapCollider(),
+                this
         ));
         entities.add(new Entity(
-                new StaticSprite(TextureMap.get("entity_rat"), 64, 64),
-                new TestBehavior(),
-                new EmptyCollider()
+                new StaticSprite(TextureMap.get("entity_rat")),
+                new PlayerBehavior(),
+                new BoxCollider(),
+                this
+        ));
+        entities.add(new Entity(
+                new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
+                new CoinBehavior(),
+                new BoxCollider(),
+                this
         ));
     }
 
     @Override
     public void update(double time, double delta) {
-        for (Entity e : entities)
-            e.update();
+        if (Input.isKeyNew(Input.Key.ESC))
+            gamePaused = !gamePaused;
 
-        menuHandler.update();
+        if (gamePaused) {
+            menuHandler.update();
+        } else {
+            for (Entity e : entities)
+                e.getCollider().act(entities);
+
+            for (Entity e : entities)
+                e.update();
+        }
     }
 
     @Override
@@ -52,8 +73,9 @@ public class GameWorld implements Scene {
 
         for (Entity e : entities)
             e.render();
-
-        menuHandler.render();
+        
+        if (gamePaused)
+            menuHandler.render();
     }
 
     @Override
@@ -71,5 +93,9 @@ public class GameWorld implements Scene {
     @Override
     public void destroy() {
 
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
     }
 }

@@ -1,3 +1,4 @@
 rat				entity_rat
 tileset				tileset
 font/misterpixel/misterpixel	font_1
+coin				entity_coin

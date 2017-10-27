@@ -4,5 +4,7 @@ import game.Entity;
 
 public class EmptyBehavior extends Behavior {
     @Override
-    public void update(Entity e) {}
+    public void act() {}
+    @Override
+    public void onCollide(Entity e) {}
 }

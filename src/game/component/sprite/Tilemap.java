@@ -1,7 +1,6 @@
 package game.component.sprite;
 
-import game.Entity;
-import mote4.util.ErrorUtils;
+import mote4.util.FileIO;
 import mote4.util.matrix.ModelMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.shader.Uniform;
@@ -20,15 +19,18 @@ public class Tilemap extends Sprite {
         model = new ModelMatrix();
         model.scale(32, 32, 1);
 
+        String map = FileIO.getString("/res/files/level1.txt");
+
         tiles = new int[20][15];
         for (int x = 0; x < tiles.length; x++)
-            for (int y = 0; y < tiles[0].length; y++) {
-                tiles[x][y] = (int)(Math.random()*4);
+            for (int y = 0; y < tiles[0].length; y++)
+            {
+                tiles[x][y] = (int)(map.charAt(x+y*21))-48;
             }
     }
 
     @Override
-    public void update(Entity e) {
+    public void render() {
         ShaderMap.use("spritesheet");
         texture.bind();
         for (int x = 0; x < tiles.length; x++)
