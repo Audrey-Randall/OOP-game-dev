@@ -4,9 +4,11 @@ import game.component.behavior.*;
 import game.component.collider.*;
 import game.component.sprite.*;
 import main.Input;
+import main.Tilemap;
 import menu.MenuHandler;
 import mote4.scenegraph.Scene;
 import mote4.util.matrix.ProjectionMatrix;
+import mote4.util.matrix.ViewMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.texture.TextureMap;
 
@@ -19,30 +21,35 @@ import static org.lwjgl.opengl.GL11.glClear;
 public class GameWorld implements Scene {
 
     private ProjectionMatrix projection;
+    private ViewMatrix view;
     private List<Entity> entities;
     private MenuHandler menuHandler;
+    private Entity player;
 
     private boolean gamePaused;
 
     public GameWorld() {
         projection = new ProjectionMatrix();
+        view = new ViewMatrix();
         entities = new ArrayList<>();
         menuHandler = new MenuHandler();
 
         gamePaused = false;
 
+        Tilemap t = new Tilemap();
         entities.add(new Entity(
-                new Tilemap(TextureMap.get("tileset")),
+                new TilemapSprite(TextureMap.get("tileset"), t),
                 new EmptyBehavior(),
-                new TilemapCollider(),
+                new TilemapCollider(t),
                 this
         ));
-        entities.add(new Entity(
+        player = new Entity(
                 new StaticSprite(TextureMap.get("entity_rat")),
                 new PlayerBehavior(),
                 new BoxCollider(),
                 this
-        ));
+        );
+        entities.add(player);
         entities.add(new Entity(
                 new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
                 new CoinBehavior(),
@@ -70,6 +77,14 @@ public class GameWorld implements Scene {
     @Override
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
+
+        view.setIdentity();
+        view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
+
+        ShaderMap.use("texture");
+        view.bind();
+        ShaderMap.use("spritesheet");
+        view.bind();
 
         for (Entity e : entities)
             e.render();

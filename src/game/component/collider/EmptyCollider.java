@@ -8,7 +8,7 @@ public class EmptyCollider extends Collider {
     @Override
     public void act(List<Entity> colliders) {}
     @Override
-    public boolean collidesWith(Collider c, double offsetX, double offsetY) {
+    public boolean collidesWith(Collider c) {
         return false;
     }
 }

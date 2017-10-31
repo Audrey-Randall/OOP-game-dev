@@ -9,5 +9,5 @@ public abstract class Collider implements Component {
     protected Entity entity;
     public void setEntity(Entity e) { entity = e; }
     public abstract void act(List<Entity> colliders);
-    public abstract boolean collidesWith(Collider c, double offsetX, double offsetY);
+    public abstract boolean collidesWith(Collider c);
 }
