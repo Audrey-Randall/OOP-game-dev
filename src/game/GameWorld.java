@@ -36,26 +36,10 @@ public class GameWorld implements Scene {
 
         gamePaused = false;
 
-        Tilemap t = new Tilemap();
-        entities.add(new Entity(
-                new TilemapSprite(TextureMap.get("tileset"), t),
-                new EmptyBehavior(),
-                new TilemapCollider(t),
-                this
-        ));
-        player = new Entity(
-                new StaticSprite(TextureMap.get("entity_rat")),
-                new PlayerBehavior(),
-                new BoxCollider(),
-                this
-        );
-        entities.add(player);
-        entities.add(new Entity(
-                new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
-                new CoinBehavior(),
-                new BoxCollider(),
-                this
-        ));
+        EntityFactory factory = new EntityFactory(this);
+        entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
+        entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
+        entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
     }
 
     @Override
@@ -78,7 +62,6 @@ public class GameWorld implements Scene {
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        view.setIdentity();
         view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
 
         ShaderMap.use("texture");
@@ -88,9 +71,17 @@ public class GameWorld implements Scene {
 
         for (Entity e : entities)
             e.render();
-        
-        if (gamePaused)
+
+        view.setIdentity();
+        if (gamePaused) {
+
+            ShaderMap.use("texture");
+            view.bind();
+            ShaderMap.use("spritesheet");
+            view.bind();
+
             menuHandler.render();
+        }
     }
 
     @Override
@@ -113,4 +104,5 @@ public class GameWorld implements Scene {
     public List<Entity> getEntities() {
         return entities;
     }
+    public void setPlayer(Entity e) { player = e; }
 }

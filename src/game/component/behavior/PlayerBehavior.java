@@ -42,7 +42,7 @@ public class PlayerBehavior extends Behavior {
                     velX = 0;
                 }
 
-        velY += .7; // gravity
+        velY += .65; // gravity
         if (jumpsLeft > 0 && Input.isKeyNew(Input.Key.UP)) {
             velY = -16;
             jumpsLeft--;
