@@ -10,4 +10,5 @@ public abstract class Collider implements Component {
     public void setEntity(Entity e) { entity = e; }
     public abstract void act(List<Entity> colliders);
     public abstract boolean collidesWith(Collider c);
+    //
 }
