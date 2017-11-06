@@ -1,13 +1,8 @@
 package game;
 
-import game.component.behavior.CoinBehavior;
-import game.component.behavior.EmptyBehavior;
-import game.component.behavior.PlayerBehavior;
-import game.component.collider.BoxCollider;
-import game.component.collider.TilemapCollider;
-import game.component.sprite.AnimatedSprite;
-import game.component.sprite.StaticSprite;
-import game.component.sprite.TilemapSprite;
+import game.component.behavior.*;
+import game.component.collider.*;
+import game.component.sprite.*;
 import main.Tilemap;
 import mote4.util.texture.TextureMap;
 
@@ -16,7 +11,8 @@ public class EntityFactory {
     public enum EntityType {
         PLAYER,
         COIN,
-        TILEMAP;
+        TILEMAP,
+        ENEMY;
     }
 
     private GameWorld world;
@@ -48,6 +44,14 @@ public class EntityFactory {
                     new EmptyBehavior(),
                     new TilemapCollider(t),
                     world);
+            case ENEMY:
+            	Entity enemy = new Entity(
+            			new StaticSprite(TextureMap.get("entity_enemy")),
+            			new EnemyBehavior(),
+            			new BoxCollider(),
+            			world
+            			);
+            	return enemy;
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
         }

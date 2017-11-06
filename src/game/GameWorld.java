@@ -40,6 +40,9 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
         entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
         entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
     }
 
     @Override
