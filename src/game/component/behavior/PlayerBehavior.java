@@ -4,6 +4,8 @@ import game.Entity;
 import game.component.collider.TilemapCollider;
 import main.Input;
 import mote4.scenegraph.Window;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerBehavior extends Behavior {
 	private enum character {
@@ -17,14 +19,20 @@ public class PlayerBehavior extends Behavior {
 	        return characterList[(this.ordinal()+1) % characterList.length];
 	    }
 	}
+	
+	
 	private character currentCharacter = character.RAT;
+	
+	Map<character, Float> characterStats = new HashMap<character, Float>();
+	
     private double velX, velY;
     private int jumpsLeft = 0;
     private int score = 0;
-    private float health = 4;
 
     public PlayerBehavior() {
-
+    	characterStats.put(character.RACCOON, (float) 4);
+    	characterStats.put(character.OPOSSUM, (float) 4);
+    	characterStats.put(character.RAT, (float) 4);
     }
     
     public void switchCharacter() {
@@ -35,17 +43,28 @@ public class PlayerBehavior extends Behavior {
     	score += scoreIncrease;
     }
     
-    public void tickHealth(float healthDecrease) {
-    	health -= healthDecrease;
-    }
+
+    public void tickHealth(character characterKey, float healthDecrease) {
+    	if (characterStats.containsKey(characterKey))
+    		characterStats.put(characterKey, characterStats.get(characterKey) - healthDecrease);
+    	}
     
-    public void boostHealth(float healthIncrease) {
-    	health += healthIncrease;
+    public void boostHealth(character characterKey, float healthIncrease) {
+    	if (characterStats.containsKey(characterKey))
+    		characterStats.put(characterKey, characterStats.get(characterKey) + healthIncrease);
     }
     
     @Override
     public void act() {
-    	tickHealth((float)Window.delta());
+    	//Boosts health of unused characters and wears out character in use
+    	tickHealth(currentCharacter, (float)Window.delta() / 100);
+    	boostHealth(currentCharacter.next(), (float)Window.delta() / 100);
+    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / 100); 
+    	
+    	System.out.println(currentCharacter.toString() + ": " + characterStats.get(currentCharacter).toString());
+    	System.out.println(currentCharacter.next().toString() + ": " + characterStats.get(currentCharacter.next()).toString());
+    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats.get(currentCharacter.next().next()).toString());
+    	
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)
                 velX /= 2.5; // pivot directions fast
