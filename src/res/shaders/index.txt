@@ -1,2 +1,1 @@
-texture.vert		texture.frag		texture
 spritesheet.vert	spritesheet.frag	spritesheet

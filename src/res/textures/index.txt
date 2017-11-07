@@ -1,5 +1,13 @@
-rat				entity_rat
 tileset				tileset
 font/misterpixel/misterpixel	font_1
-coin				entity_coin
-enemy			entity_enemy
+
+rat		entity_rat
+possum		entity_possum
+TempHat		entity_hat
+
+coin		entity_coin
+enemy		entity_enemy
+
+trash		entity_trash
+cheese		entity_cheese
+food		entity_food

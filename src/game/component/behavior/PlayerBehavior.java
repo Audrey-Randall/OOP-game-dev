@@ -2,8 +2,12 @@ package game.component.behavior;
 
 import game.Entity;
 import game.component.collider.TilemapCollider;
+import game.component.sprite.AnimatedSprite;
+import game.component.sprite.PlayerSprite;
+import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
+import mote4.util.texture.TextureMap;
 
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
@@ -17,11 +21,11 @@ public class PlayerBehavior extends Behavior {
     }
     
 	public enum character {
-		RACCOON(0),
+		RAT(0),
 		OPOSSUM(1),
-		RAT(2);
+		RACCOON(2);
 		
-        int index;
+        private int index;
         character(int i) {
             index = i;
         }
@@ -31,10 +35,11 @@ public class PlayerBehavior extends Behavior {
 	    {
 	        return characterList[(this.ordinal()+1) % characterList.length];
 	    }
+	    public int getIndex() { return index; }
 	}
 	
 	private character currentCharacter = character.RAT;
-	
+
 	private float[] characterStats = new float[3];
 	
 	private float INITIAL_HEALTH = 4;
@@ -44,10 +49,54 @@ public class PlayerBehavior extends Behavior {
     	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
     	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
     	characterStats[character.RAT.index] = INITIAL_HEALTH;
+        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoon.claw(); } };
+        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possum.playDead(); } };
+        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { rat.scurry(); } };
+    }
+    
+    public interface SpecialBehaviors {
+    	void behavior();
+    }
+    
+    class RatBehavior {
+    	void scurry() {
+    		System.out.println("Rat Special Behavior");
+    	}
+    }
+    
+    class PossumBehavior {
+    	void playDead() {
+    		System.out.println("Possum Special Behavior");
+    	}
+    }
+    
+    class RaccoonBehavior {
+    	void claw() {
+    		System.out.println("Raccoon Special Behavior");
+    	}
+    }
+    
+    RatBehavior rat = new RatBehavior();
+    PossumBehavior possum = new PossumBehavior();
+    RaccoonBehavior raccoon = new RaccoonBehavior();
+
+    SpecialBehaviors[] behaviorList = new SpecialBehaviors[3]; 
+
+
+    
+    public void performSpecialBehavior() {
+    	behaviorList[currentCharacter.index].behavior();
+    }
+    
+    public void climb() {
+    	
     }
     
     public void switchCharacter() {
     	currentCharacter = currentCharacter.next();
+        PlayerSprite s = (PlayerSprite)entity.getSprite();
+        s.setSprite(currentCharacter);
+    	//entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
     }
     
     public void adjustScore(int scoreIncrease) {
@@ -81,6 +130,14 @@ public class PlayerBehavior extends Behavior {
 	    	printCounter = 0;
     	}
     	
+    	 if (Input.isKeyNew(Input.Key.DOWN)) {
+    		 switchCharacter();
+    	 }
+    	
+    	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
+    		 performSpecialBehavior();
+    	 }
+    	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)
                 velX /= 2.5; // pivot directions fast

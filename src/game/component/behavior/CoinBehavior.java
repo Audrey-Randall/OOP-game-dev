@@ -17,10 +17,8 @@ public class CoinBehavior extends Behavior {
     public void onCollide(Entity e) {
         entity.moveTo(Math.random()*(640-64), Math.random()*(480-64));
         if (e.getBehavior() instanceof PlayerBehavior) {
-        	if (Window.time() > 1) {
-	            GameWorld instance = GameWorld.getInstance();
-	            Entity player = instance.getPlayer();
-	            PlayerBehavior playerBehavior = (PlayerBehavior)player.getBehavior();
+        	if (Window.time() > 3) {
+	            PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
 	        	playerBehavior.adjustScore(1);
 	        	playerBehavior.printStats();
         	}
