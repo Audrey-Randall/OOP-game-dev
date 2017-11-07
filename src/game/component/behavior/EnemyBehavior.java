@@ -1,6 +1,7 @@
 package game.component.behavior;
 
 import game.Entity;
+import game.GameWorld;
 import mote4.scenegraph.Window;
 
 public class EnemyBehavior extends Behavior {
@@ -13,6 +14,6 @@ public class EnemyBehavior extends Behavior {
 
     @Override
     public void onCollide(Entity e) {
-        entity.moveTo(Math.random()*(640-64), Math.random()*(480-64));
+        
     }
 }

@@ -36,13 +36,13 @@ public class PlayerBehavior extends Behavior {
 	
 	private float[] characterStats = new float[3];
 	
-	private float initialHealth = 4;
-	private float healthScaleFactor = 100;
+	private float INITIAL_HEALTH = 4;
+	private float HEALTH_SCALE_FACTOR = 100;
 
     public PlayerBehavior() {
-    	characterStats[character.RACCOON.index] = initialHealth;
-    	characterStats[character.OPOSSUM.index] = initialHealth;
-    	characterStats[character.RAT.index] = initialHealth;
+    	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
+    	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
+    	characterStats[character.RAT.index] = INITIAL_HEALTH;
     }
     
     public void switchCharacter() {
@@ -69,9 +69,9 @@ public class PlayerBehavior extends Behavior {
     @Override
     public void act() {
     	//Boosts health of unused characters and wears out character in use
-    	tickHealth(currentCharacter, (float)Window.delta() / healthScaleFactor);
-    	boostHealth(currentCharacter.next(), (float)Window.delta() / healthScaleFactor);
-    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / healthScaleFactor); 
+    	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR); 
     	
     	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
     	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);

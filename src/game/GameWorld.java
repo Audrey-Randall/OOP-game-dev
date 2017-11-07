@@ -25,6 +25,9 @@ public class GameWorld implements Scene {
     private List<Entity> entities;
     private MenuHandler menuHandler;
     private Entity player;
+    
+    public void setPlayer(Entity e) { player = e; }
+    public Entity getPlayer() { return player; }
 
     private boolean gamePaused;
 
@@ -107,5 +110,4 @@ public class GameWorld implements Scene {
     public List<Entity> getEntities() {
         return entities;
     }
-    public void setPlayer(Entity e) { player = e; }
 }
