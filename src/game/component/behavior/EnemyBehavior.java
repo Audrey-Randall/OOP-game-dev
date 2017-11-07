@@ -15,9 +15,12 @@ public class EnemyBehavior extends Behavior {
 
     @Override
     public void onCollide(Entity e) {
-        GameWorld instance = GameWorld.getInstance();
-        Entity player = instance.getPlayer();
-        PlayerBehavior behavior = (PlayerBehavior) player.getBehavior();
-        behavior.tickHealth(behavior.getCurrentCharacter(), 1);
+    	if (e.getBehavior() instanceof PlayerBehavior) {
+	        GameWorld instance = GameWorld.getInstance();
+	        Entity player = instance.getPlayer();
+	        PlayerBehavior behavior = (PlayerBehavior) player.getBehavior();
+	        behavior.tickHealth(behavior.getCurrentCharacter(), (float)Window.delta());
+	        System.out.println("HIT!");
+    	}
     }
 }
