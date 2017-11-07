@@ -6,5 +6,7 @@ public class CosmeticBehavior extends Behavior {
     @Override
     public void act() {}
     @Override
-    public void onCollide(Entity e) {}
+    public void onCollide(Entity e) {
+    	
+    }
 }

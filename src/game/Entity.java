@@ -1,20 +1,27 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import game.component.behavior.Behavior;
 import game.component.collider.Collider;
-import game.component.sprite.Sprite;
+import game.component.sprite.*;
 
 public class Entity {
 
-    private Sprite sprite;
+    private List<Sprite> sprite = new ArrayList<Sprite>();
+    private int numberOfSprites = 0;
+    private int currentSprite = 0;
     private Behavior behavior;
     private Collider collider;
     private GameWorld gameWorld;
 
     private double posX, posY, width, height;
 
-    public Entity(Sprite s, Behavior b, Collider c, GameWorld g) {
+    public Entity(List<Sprite> s, Behavior b, Collider c, GameWorld g) {
         sprite = s;
+        numberOfSprites = s.size();
+        System.out.println("Number of Sprites: " + numberOfSprites);
         behavior = b;
         collider = c;
         gameWorld = g;
@@ -22,7 +29,7 @@ public class Entity {
         posX = posY = 0;
         width = height = 64;
 
-        sprite.setEntity(this);
+        sprite.get(0).setEntity(this);
         behavior.setEntity(this);
         collider.setEntity(this);
     }
@@ -32,7 +39,7 @@ public class Entity {
     }
 
     public void render() {
-        sprite.render();
+        sprite.get(currentSprite).render();
     }
 
     public void moveTo(double x, double y) {
@@ -45,8 +52,17 @@ public class Entity {
     }
 
     public Sprite getSprite() {
-        return sprite;
+    	System.out.println("getSprite");
+        return sprite.get(currentSprite);
     }
+    
+    public void swapSprite() {
+    	System.out.println("swapSprite");
+    	currentSprite = (currentSprite + 1);
+    	currentSprite = currentSprite % numberOfSprites;
+    	System.out.println("Current Sprite: " + currentSprite);
+    }
+    
     public Behavior getBehavior() {
         return behavior;
     }

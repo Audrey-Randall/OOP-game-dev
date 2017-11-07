@@ -88,6 +88,9 @@ public class PlayerBehavior extends Behavior {
     
     public void switchCharacter() {
     	currentCharacter = currentCharacter.next();
+    	System.out.println("currentCharacter: " + currentCharacter.toString());
+    	entity.swapSprite();
+    	System.out.println("switchCharacter");
     }
     
     public void adjustScore(int scoreIncrease) {
@@ -121,6 +124,14 @@ public class PlayerBehavior extends Behavior {
 	    	printCounter = 0;
     	}
     	
+    	 if (Input.isKeyNew(Input.Key.DOWN)) {
+    		 switchCharacter();
+    	 }
+    	
+    	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
+    		 performSpecialBehavior();
+    	 }
+    	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)
                 velX /= 2.5; // pivot directions fast
