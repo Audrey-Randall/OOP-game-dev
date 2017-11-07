@@ -3,19 +3,49 @@ package game.component.behavior;
 import game.Entity;
 import game.component.collider.TilemapCollider;
 import main.Input;
+import mote4.scenegraph.Window;
 
 public class PlayerBehavior extends Behavior {
-
+	private enum character {
+		RACCOON,
+		OPOSSUM,
+		RAT;
+		
+	    private static character[] characterList = values();
+	    public character next()
+	    {
+	        return characterList[(this.ordinal()+1) % characterList.length];
+	    }
+	}
+	private character currentCharacter = character.RAT;
     private double velX, velY;
     private int jumpsLeft = 0;
+    private int score = 0;
+    private float health = 4;
 
     public PlayerBehavior() {
 
     }
-
+    
+    public void switchCharacter() {
+    	currentCharacter = currentCharacter.next();
+    }
+    
+    public void adjustScore(int scoreIncrease) {
+    	score += scoreIncrease;
+    }
+    
+    public void tickHealth(float healthDecrease) {
+    	health -= healthDecrease;
+    }
+    
+    public void boostHealth(float healthIncrease) {
+    	health += healthIncrease;
+    }
+    
     @Override
     public void act() {
-
+    	tickHealth((float)Window.delta());
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)
                 velX /= 2.5; // pivot directions fast
