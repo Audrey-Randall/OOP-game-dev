@@ -3,6 +3,7 @@ package game;
 import game.component.behavior.*;
 import game.component.collider.*;
 import game.component.sprite.*;
+import javafx.util.Pair;
 import main.Input;
 import main.Tilemap;
 import menu.MenuHandler;
@@ -19,6 +20,7 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
 public class GameWorld implements Scene {
+	private static int NUMBER_OF_ENEMIES = 3;
 	
 	private static GameWorld instance = null;
 
@@ -27,6 +29,9 @@ public class GameWorld implements Scene {
     private List<Entity> entities;
     private MenuHandler menuHandler;
     private Entity player;
+
+    
+    private double[] EnemyPosition = new double[NUMBER_OF_ENEMIES * 2];
     
     public void setPlayer(Entity e) { player = e; }
     public Entity getPlayer() { return player; }
@@ -34,6 +39,12 @@ public class GameWorld implements Scene {
     private boolean gamePaused;
 
     private GameWorld() {
+    	EnemyPosition[0] = 20.;
+    	EnemyPosition[1] = 30.;
+    	EnemyPosition[2] = 300.;
+    	EnemyPosition[3] = 70.;
+    	EnemyPosition[4] = 400.;
+    	EnemyPosition[5] = 100.;
         projection = new ProjectionMatrix();
         view = new ViewMatrix();
         entities = new ArrayList<>();
@@ -49,6 +60,7 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
+        placeEnemies();
     }
 
     public static GameWorld getInstance() {
@@ -119,5 +131,15 @@ public class GameWorld implements Scene {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+    
+    public void placeEnemies() {
+    	int i = 0;
+    	for (Entity e : entities) {
+    		if(e.getBehavior() instanceof EnemyBehavior) {
+    			e.moveTo(EnemyPosition[i], EnemyPosition[i+1]);
+    			i+=2;
+    		}
+    	}
     }
 }

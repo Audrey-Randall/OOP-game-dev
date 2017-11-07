@@ -13,7 +13,8 @@ public class EntityFactory {
         COIN,
         TILEMAP,
         ENEMY,
-        HAT;
+        HAT,
+        COSMETIC;
     }
 
     private GameWorld world;
