@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL11.glClear;
 
 public class GameWorld implements Scene {
 	private static int NUMBER_OF_ENEMIES = 3;
+	private static int NUMBER_OF_FOODS = 2;
 	
 	private static GameWorld instance = null;
 
@@ -32,6 +33,7 @@ public class GameWorld implements Scene {
 
     
     private double[] EnemyPosition = new double[NUMBER_OF_ENEMIES * 2];
+    private double[] FoodPosition = new double[NUMBER_OF_FOODS * 2];
     
     public void setPlayer(Entity e) { player = e; }
     public Entity getPlayer() { return player; }
@@ -45,6 +47,10 @@ public class GameWorld implements Scene {
     	EnemyPosition[3] = 70.;
     	EnemyPosition[4] = 400.;
     	EnemyPosition[5] = 100.;
+    	FoodPosition[0] = 50.;
+    	FoodPosition[1] = 150.;
+    	FoodPosition[2] = 500.;
+    	FoodPosition[3] = 100.;
         projection = new ProjectionMatrix();
         view = new ViewMatrix();
         entities = new ArrayList<>();
@@ -60,7 +66,10 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
+        entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
+        entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
         placeEnemies();
+        placeFood();
     }
 
     public static GameWorld getInstance() {
@@ -138,6 +147,18 @@ public class GameWorld implements Scene {
     	for (Entity e : entities) {
     		if(e.getBehavior() instanceof EnemyBehavior) {
     			e.moveTo(EnemyPosition[i], EnemyPosition[i+1]);
+    			i+=2;
+    		}
+    	}
+    }
+    
+    public void placeFood() {
+    	int i = 0;
+    	for (Entity e : entities) {
+    		if(e.getBehavior() instanceof FoodBehavior) {
+    			e.moveTo(FoodPosition[i], FoodPosition[i+1]);
+    			FoodBehavior foodBehavior = (FoodBehavior)e.getBehavior();
+    			foodBehavior.setFoodType(i);
     			i+=2;
     		}
     	}

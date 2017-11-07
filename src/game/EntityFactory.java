@@ -17,7 +17,8 @@ public class EntityFactory {
         TILEMAP,
         ENEMY,
         HAT,
-        COSMETIC;
+        COSMETIC, 
+        FOOD;
     }
 
     private GameWorld world;
@@ -67,6 +68,14 @@ public class EntityFactory {
             			world
             			);
             	return hat;
+            case FOOD:
+            	Entity food = new Entity(
+            			new StaticSprite(TextureMap.get("entity_trash")),
+            			new FoodBehavior(),
+            			new BoxCollider(),
+            			world
+            			);
+            	return food;
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
         }
