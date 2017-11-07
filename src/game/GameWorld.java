@@ -48,6 +48,7 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
+        entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
     }
 
     public static GameWorld getInstance() {

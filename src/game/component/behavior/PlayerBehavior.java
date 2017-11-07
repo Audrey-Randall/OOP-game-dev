@@ -34,7 +34,7 @@ public class PlayerBehavior extends Behavior {
 	}
 	
 	private character currentCharacter = character.RAT;
-	
+
 	private float[] characterStats = new float[3];
 	
 	private float INITIAL_HEALTH = 4;
@@ -44,6 +44,42 @@ public class PlayerBehavior extends Behavior {
     	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
     	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
     	characterStats[character.RAT.index] = INITIAL_HEALTH;
+    }
+    
+    public interface SpecialBehaviors {
+    	void behavior();
+    }
+    
+    class RatBehavior {
+    	void scurry() {
+    		System.out.println("Rat Special Behavior");
+    	}
+    }
+    
+    class PossumBehavior {
+    	void playDead() {
+    		System.out.println("Possum Special Behavior");
+    	}
+    }
+    
+    class RaccoonBehavior {
+    	void claw() {
+    		System.out.println("Raccoon Special Behavior");
+    	}
+    }
+    
+    RatBehavior rat = new RatBehavior();
+    PossumBehavior possum = new PossumBehavior();
+    RaccoonBehavior raccoon = new RaccoonBehavior();
+
+    SpecialBehaviors[] behaviorList = new SpecialBehaviors[] {
+      new SpecialBehaviors() { public void behavior() { rat.scurry(); } },
+      new SpecialBehaviors() { public void behavior() { possum.playDead(); } },
+      new SpecialBehaviors() { public void behavior() { raccoon.claw(); } }
+    };
+    
+    public void climb() {
+    	
     }
     
     public void switchCharacter() {

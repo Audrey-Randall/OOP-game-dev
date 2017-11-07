@@ -12,7 +12,8 @@ public class EntityFactory {
         PLAYER,
         COIN,
         TILEMAP,
-        ENEMY;
+        ENEMY,
+        HAT;
     }
 
     private GameWorld world;
@@ -52,6 +53,14 @@ public class EntityFactory {
             			world
             			);
             	return enemy;
+            case HAT:
+            	Entity hat = new Entity(
+            			new StaticSprite(TextureMap.get("entity_hat")),
+            			new EnemyBehavior(),
+            			new BoxCollider(),
+            			world
+            			);
+            	return hat;
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
         }
