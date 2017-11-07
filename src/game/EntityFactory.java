@@ -56,8 +56,8 @@ public class EntityFactory {
             case HAT:
             	Entity hat = new Entity(
             			new StaticSprite(TextureMap.get("entity_hat")),
-            			new EnemyBehavior(),
-            			new BoxCollider(),
+            			new HatBehavior(),
+            			new EmptyCollider(),
             			world
             			);
             	return hat;

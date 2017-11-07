@@ -73,10 +73,14 @@ public class PlayerBehavior extends Behavior {
     RaccoonBehavior raccoon = new RaccoonBehavior();
 
     SpecialBehaviors[] behaviorList = new SpecialBehaviors[] {
-      new SpecialBehaviors() { public void behavior() { rat.scurry(); } },
+      new SpecialBehaviors() { public void behavior() { raccoon.claw(); } },
       new SpecialBehaviors() { public void behavior() { possum.playDead(); } },
-      new SpecialBehaviors() { public void behavior() { raccoon.claw(); } }
+      new SpecialBehaviors() { public void behavior() { rat.scurry(); } }
     };
+    
+    public void performSpecialBehavior() {
+    	behaviorList[currentCharacter.index].behavior();
+    }
     
     public void climb() {
     	
