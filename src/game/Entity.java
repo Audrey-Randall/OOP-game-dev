@@ -1,8 +1,11 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import game.component.behavior.Behavior;
 import game.component.collider.Collider;
-import game.component.sprite.Sprite;
+import game.component.sprite.*;
 
 public class Entity {
 
@@ -47,6 +50,11 @@ public class Entity {
     public Sprite getSprite() {
         return sprite;
     }
+    
+    public void swapSprite(Sprite s) {
+    	sprite = s;
+    }
+    
     public Behavior getBehavior() {
         return behavior;
     }

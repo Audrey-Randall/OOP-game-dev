@@ -3,3 +3,7 @@ tileset				tileset
 font/misterpixel/misterpixel	font_1
 coin				entity_coin
 enemy			entity_enemy
+possum			entity_possum
+TempHat			entity_hat
+trash			entity_trash
+cheese			entity_cheese

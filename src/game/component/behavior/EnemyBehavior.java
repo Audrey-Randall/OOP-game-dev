@@ -21,9 +21,7 @@ public class EnemyBehavior extends Behavior {
     public void onCollide(Entity e) {
     	if (e.getBehavior() instanceof PlayerBehavior) {
     		if (Window.time() > 3) {
-    			GameWorld instance = GameWorld.getInstance();
-    		    Entity player = instance.getPlayer();
-    		    PlayerBehavior playerBehavior = (PlayerBehavior) player.getBehavior();
+    		    PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
 		        playerBehavior.tickHealth(playerBehavior.getCurrentCharacter(), (float)Window.delta() /  PENALTY_SCALE_FACTOR);
 		        System.out.println("HIT!");
 		        playerBehavior.printStats();
