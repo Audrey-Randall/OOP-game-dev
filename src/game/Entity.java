@@ -39,6 +39,10 @@ public class Entity {
     }
 
     public void render() {
+    	System.out.println("Entity: " + this.getBehavior().toString());
+    	System.out.println("CurrentSprite: " + currentSprite);
+    	System.out.println("Size: " + sprite.size());
+    	System.out.println(sprite.get(currentSprite).toString());
         sprite.get(currentSprite).render();
     }
 
