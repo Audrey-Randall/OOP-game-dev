@@ -158,7 +158,7 @@ public class GameWorld implements Scene {
     		if(e.getBehavior() instanceof FoodBehavior) {
     			e.moveTo(FoodPosition[i], FoodPosition[i+1]);
     			FoodBehavior foodBehavior = (FoodBehavior)e.getBehavior();
-    			foodBehavior.setFoodType(i);
+    			foodBehavior.setFoodType(FoodBehavior.foodType.CHEESE);
     			i+=2;
     		}
     	}

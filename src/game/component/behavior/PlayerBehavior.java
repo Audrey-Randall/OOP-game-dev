@@ -91,9 +91,7 @@ public class PlayerBehavior extends Behavior {
     
     public void switchCharacter() {
     	currentCharacter = currentCharacter.next();
-    	System.out.println("currentCharacter: " + currentCharacter.toString());
     	entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
-    	System.out.println("switchCharacter");
     }
     
     public void adjustScore(int scoreIncrease) {
