@@ -6,6 +6,7 @@ import main.Input;
 import mote4.scenegraph.Window;
 
 public class PlayerBehavior extends Behavior {
+	double printCounter = 0;
     private double velX, velY;
     private int jumpsLeft = 0;
        
@@ -68,14 +69,19 @@ public class PlayerBehavior extends Behavior {
     
     @Override
     public void act() {
+    	printCounter += Window.delta();
+    	
     	//Boosts health of unused characters and wears out character in use
     	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
-    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR); 
+    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	
-    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
-    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
-    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+    	if (printCounter > 3) {
+	    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
+	    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
+	    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+	    	printCounter = 0;
+    	}
     	
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)
