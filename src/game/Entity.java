@@ -53,6 +53,7 @@ public class Entity {
     
     public void swapSprite(Sprite s) {
     	sprite = s;
+        sprite.setEntity(this);
     }
     
     public Behavior getBehavior() {
