@@ -32,7 +32,8 @@ public class EntityFactory {
         switch (type) {
             case PLAYER:
                 Entity e = new Entity(
-                	new AnimatedSprite(TextureMap.get("entity_rat"),  2,1,2,15),
+                	new PlayerSprite(),
+                    //new AnimatedSprite(TextureMap.get("entity_rat"),  2,1,2,15),
                     new PlayerBehavior(),
                     new BoxCollider(),
                     world);

@@ -3,6 +3,7 @@ package game.component.behavior;
 import game.Entity;
 import game.component.collider.TilemapCollider;
 import game.component.sprite.AnimatedSprite;
+import game.component.sprite.PlayerSprite;
 import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
@@ -24,7 +25,7 @@ public class PlayerBehavior extends Behavior {
 		OPOSSUM(1),
 		RAT(2);
 		
-        int index;
+        private int index;
         character(int i) {
             index = i;
         }
@@ -34,6 +35,7 @@ public class PlayerBehavior extends Behavior {
 	    {
 	        return characterList[(this.ordinal()+1) % characterList.length];
 	    }
+	    public int getIndex() { return index; }
 	}
 	
 	private character currentCharacter = character.RAT;
@@ -91,7 +93,9 @@ public class PlayerBehavior extends Behavior {
     
     public void switchCharacter() {
     	currentCharacter = currentCharacter.next();
-    	entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
+        PlayerSprite s = (PlayerSprite)entity.getSprite();
+        s.setSprite(currentCharacter);
+    	//entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
     }
     
     public void adjustScore(int scoreIncrease) {
