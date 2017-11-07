@@ -32,7 +32,7 @@ public class Main {
         loadResources();
         Input.createKeyCallback();
 
-        Window.addScene(new GameWorld());
+        Window.addScene(GameWorld.getInstance());
         Window.loop();
     }
 

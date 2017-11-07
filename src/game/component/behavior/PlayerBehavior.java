@@ -4,10 +4,9 @@ import game.Entity;
 import game.component.collider.TilemapCollider;
 import main.Input;
 import mote4.scenegraph.Window;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PlayerBehavior extends Behavior {
+	double printCounter = 0;
     private double velX, velY;
     private int jumpsLeft = 0;
        
@@ -18,9 +17,14 @@ public class PlayerBehavior extends Behavior {
     }
     
 	public enum character {
-		RACCOON,
-		OPOSSUM,
-		RAT;
+		RACCOON(0),
+		OPOSSUM(1),
+		RAT(2);
+		
+        int index;
+        character(int i) {
+            index = i;
+        }
 		
 	    private static character[] characterList = values();
 	    public character next()
@@ -31,12 +35,15 @@ public class PlayerBehavior extends Behavior {
 	
 	private character currentCharacter = character.RAT;
 	
-	private Map<character, Float> characterStats = new HashMap<character, Float>();
+	private float[] characterStats = new float[3];
+	
+	private float INITIAL_HEALTH = 4;
+	private float HEALTH_SCALE_FACTOR = 100;
 
     public PlayerBehavior() {
-    	characterStats.put(character.RACCOON, (float) 4);
-    	characterStats.put(character.OPOSSUM, (float) 4);
-    	characterStats.put(character.RAT, (float) 4);
+    	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
+    	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
+    	characterStats[character.RAT.index] = INITIAL_HEALTH;
     }
     
     public void switchCharacter() {
@@ -48,14 +55,12 @@ public class PlayerBehavior extends Behavior {
     }
     
 
-    public void tickHealth(character characterKey, float healthDecrease) {
-    	if (characterStats.containsKey(characterKey))
-    		characterStats.put(characterKey, characterStats.get(characterKey) - healthDecrease);
-    	}
+    public void tickHealth(character characterName, float healthDecrease) {
+    	characterStats[characterName.index] -= healthDecrease;
+    }
     
-    public void boostHealth(character characterKey, float healthIncrease) {
-    	if (characterStats.containsKey(characterKey))
-    		characterStats.put(characterKey, characterStats.get(characterKey) + healthIncrease);
+    public void boostHealth(character characterName, float healthIncrease) {
+    	characterStats[characterName.index] += healthIncrease;
     }
     
     public character getCurrentCharacter( ) {
@@ -64,14 +69,19 @@ public class PlayerBehavior extends Behavior {
     
     @Override
     public void act() {
-    	//Boosts health of unused characters and wears out character in use
-    	tickHealth(currentCharacter, (float)Window.delta() / 100);
-    	boostHealth(currentCharacter.next(), (float)Window.delta() / 100);
-    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / 100); 
+    	printCounter += Window.delta();
     	
-    	System.out.println(currentCharacter.toString() + ": " + characterStats.get(currentCharacter).toString());
-    	System.out.println(currentCharacter.next().toString() + ": " + characterStats.get(currentCharacter.next()).toString());
-    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats.get(currentCharacter.next().next()).toString());
+    	//Boosts health of unused characters and wears out character in use
+    	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	
+    	if (printCounter > 3) {
+	    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
+	    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
+	    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+	    	printCounter = 0;
+    	}
     	
         if (Input.isKeyDown(Input.Key.RIGHT)) {
             if (velX < -.2)

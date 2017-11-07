@@ -19,16 +19,21 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
 public class GameWorld implements Scene {
+	
+	private static GameWorld instance = null;
 
     private ProjectionMatrix projection;
     private ViewMatrix view;
     private List<Entity> entities;
     private MenuHandler menuHandler;
     private Entity player;
+    
+    public void setPlayer(Entity e) { player = e; }
+    public Entity getPlayer() { return player; }
 
     private boolean gamePaused;
 
-    public GameWorld() {
+    private GameWorld() {
         projection = new ProjectionMatrix();
         view = new ViewMatrix();
         entities = new ArrayList<>();
@@ -45,6 +50,13 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
     }
 
+    public static GameWorld getInstance() {
+        if(instance == null) {
+           instance = new GameWorld();
+        }
+        return instance;
+     }
+    
     @Override
     public void update(double time, double delta) {
         if (Input.isKeyNew(Input.Key.ESC))
@@ -107,5 +119,4 @@ public class GameWorld implements Scene {
     public List<Entity> getEntities() {
         return entities;
     }
-    public void setPlayer(Entity e) { player = e; }
 }
