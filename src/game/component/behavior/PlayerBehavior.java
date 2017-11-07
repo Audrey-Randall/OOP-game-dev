@@ -77,9 +77,7 @@ public class PlayerBehavior extends Behavior {
     	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	
     	if (printCounter > 3) {
-	    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
-	    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
-	    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+    		printStats();
 	    	printCounter = 0;
     	}
     	
@@ -129,6 +127,13 @@ public class PlayerBehavior extends Behavior {
                     while (entity.getCollider().collidesWith(e.getCollider()));
                     velY = 0;
                 }
+    }
+    
+    public void printStats() {
+    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
+    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
+    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+    	System.out.println("Score: " + score);
     }
 
     @Override
