@@ -8,7 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerBehavior extends Behavior {
-	private enum character {
+    private double velX, velY;
+    private int jumpsLeft = 0;
+       
+    private int score = 0;
+	
+    public int getScore() {
+    	return score;
+    }
+    
+	public enum character {
 		RACCOON,
 		OPOSSUM,
 		RAT;
@@ -20,14 +29,9 @@ public class PlayerBehavior extends Behavior {
 	    }
 	}
 	
-	
 	private character currentCharacter = character.RAT;
 	
-	Map<character, Float> characterStats = new HashMap<character, Float>();
-	
-    private double velX, velY;
-    private int jumpsLeft = 0;
-    private int score = 0;
+	private Map<character, Float> characterStats = new HashMap<character, Float>();
 
     public PlayerBehavior() {
     	characterStats.put(character.RACCOON, (float) 4);
@@ -52,6 +56,10 @@ public class PlayerBehavior extends Behavior {
     public void boostHealth(character characterKey, float healthIncrease) {
     	if (characterStats.containsKey(characterKey))
     		characterStats.put(characterKey, characterStats.get(characterKey) + healthIncrease);
+    }
+    
+    public character getCurrentCharacter( ) {
+    	return currentCharacter;
     }
     
     @Override
