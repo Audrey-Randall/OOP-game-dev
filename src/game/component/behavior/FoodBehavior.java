@@ -33,11 +33,14 @@ public class FoodBehavior extends Behavior {
     public void onCollide(Entity e) {
     	if (e.getBehavior() instanceof PlayerBehavior) {
     		 PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
-    		 if (food == foodType.TRASH)
-    			 playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) .5);
+    		 if (food == foodType.TRASH) {
+    			playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) .5);
+    		 	System.out.println("You got " + food.toString());
+    		 }
     		 else
     			 if(matchingFoodType[food.index] == playerBehavior.getCurrentCharacter()) {
     				 playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) 2);
+    				 System.out.println("You got " + food.toString());
     			 }
     	}	
     }

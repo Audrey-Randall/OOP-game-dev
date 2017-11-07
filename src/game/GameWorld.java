@@ -34,6 +34,7 @@ public class GameWorld implements Scene {
     
     private double[] EnemyPosition = new double[NUMBER_OF_ENEMIES * 2];
     private double[] FoodPosition = new double[NUMBER_OF_FOODS * 2];
+    private FoodBehavior.foodType[] FoodType = new FoodBehavior.foodType[NUMBER_OF_FOODS];
     
     public void setPlayer(Entity e) { player = e; }
     public Entity getPlayer() { return player; }
@@ -51,6 +52,8 @@ public class GameWorld implements Scene {
     	FoodPosition[1] = 150.;
     	FoodPosition[2] = 500.;
     	FoodPosition[3] = 100.;
+    	FoodType[0] = FoodBehavior.foodType.TRASH;
+    	FoodType[1] = FoodBehavior.foodType.CHEESE;
         projection = new ProjectionMatrix();
         view = new ViewMatrix();
         entities = new ArrayList<>();
@@ -152,7 +155,7 @@ public class GameWorld implements Scene {
     		if(e.getBehavior() instanceof FoodBehavior) {
     			e.moveTo(FoodPosition[i], FoodPosition[i+1]);
     			FoodBehavior foodBehavior = (FoodBehavior)e.getBehavior();
-    			foodBehavior.setFoodType(FoodBehavior.foodType.CHEESE);
+    			foodBehavior.setFoodType(FoodType[i/2]);
     			i+=2;
     		}
     	}

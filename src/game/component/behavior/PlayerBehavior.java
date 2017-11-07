@@ -21,9 +21,9 @@ public class PlayerBehavior extends Behavior {
     }
     
 	public enum character {
-		RACCOON(0),
+		RAT(0),
 		OPOSSUM(1),
-		RAT(2);
+		RACCOON(2);
 		
         private int index;
         character(int i) {
@@ -49,6 +49,9 @@ public class PlayerBehavior extends Behavior {
     	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
     	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
     	characterStats[character.RAT.index] = INITIAL_HEALTH;
+        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoon.claw(); } };
+        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possum.playDead(); } };
+        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { rat.scurry(); } };
     }
     
     public interface SpecialBehaviors {
@@ -77,11 +80,9 @@ public class PlayerBehavior extends Behavior {
     PossumBehavior possum = new PossumBehavior();
     RaccoonBehavior raccoon = new RaccoonBehavior();
 
-    SpecialBehaviors[] behaviorList = new SpecialBehaviors[] {
-      new SpecialBehaviors() { public void behavior() { raccoon.claw(); } },
-      new SpecialBehaviors() { public void behavior() { possum.playDead(); } },
-      new SpecialBehaviors() { public void behavior() { rat.scurry(); } }
-    };
+    SpecialBehaviors[] behaviorList = new SpecialBehaviors[3]; 
+
+
     
     public void performSpecialBehavior() {
     	behaviorList[currentCharacter.index].behavior();

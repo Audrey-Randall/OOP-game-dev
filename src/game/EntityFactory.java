@@ -71,7 +71,7 @@ public class EntityFactory {
             	return hat;
             case FOOD:
             	Entity food = new Entity(
-            			new StaticSprite(TextureMap.get("entity_trash"),1,1,0),
+            			new StaticSprite(TextureMap.get("entity_food"),1,1,1),
             			new FoodBehavior(),
             			new BoxCollider(),
             			world
