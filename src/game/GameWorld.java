@@ -101,8 +101,6 @@ public class GameWorld implements Scene {
 
         view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
 
-        ShaderMap.use("texture");
-        view.bind();
         ShaderMap.use("spritesheet");
         view.bind();
 
@@ -112,8 +110,6 @@ public class GameWorld implements Scene {
         view.setIdentity();
         if (gamePaused) {
 
-            ShaderMap.use("texture");
-            view.bind();
             ShaderMap.use("spritesheet");
             view.bind();
 
@@ -127,8 +123,6 @@ public class GameWorld implements Scene {
         int right = (int)(480*aspectRatio);
         projection.setOrthographic(0,0,right,480,-1,1);
 
-        ShaderMap.use("texture");
-        projection.bind();
         ShaderMap.use("spritesheet");
         projection.bind();
     }
