@@ -30,53 +30,38 @@ public class EntityFactory {
     	
         switch (type) {
             case PLAYER:
-            	List<Sprite> characterSprites = new ArrayList<Sprite>();
-            	AnimatedSprite s1 = new AnimatedSprite(TextureMap.get("entity_rat"),  2,1,2,15);
-            	AnimatedSprite s2 = new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15);
-            	characterSprites.add(s1);
-            	characterSprites.add(s2);
-                Entity e = new Entity(characterSprites,
+                Entity e = new Entity(
+                	new AnimatedSprite(TextureMap.get("entity_rat"),  2,1,2,15),
                     new PlayerBehavior(),
                     new BoxCollider(),
                     world);
                 world.setPlayer(e);
                 return e;
             case COIN:
-            	List<Sprite> coinSprite = new ArrayList<Sprite>();
-            	AnimatedSprite c = new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3);
-            	coinSprite.add(c);
                 return new Entity(
-                    coinSprite,
+                		new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
                     new CoinBehavior(),
                     new BoxCollider(),
                     world);
             case TILEMAP:
                 Tilemap t = new Tilemap();
-                List<Sprite> tileSprite = new ArrayList<Sprite>();
-                TilemapSprite tile = new TilemapSprite(TextureMap.get("tileset"), t);
-                tileSprite.add(tile);
                 return new Entity(
-                    tileSprite,
+                		 new TilemapSprite(TextureMap.get("tileset"), t),
                     new EmptyBehavior(),
                     new TilemapCollider(t),
                     world);
             case ENEMY:
-            	List<Sprite> enemySprite = new ArrayList<Sprite>();
-            	AnimatedSprite en = new AnimatedSprite(TextureMap.get("entity_enemy"), 2, 1, 2, 10);
-            	enemySprite.add(en);
+
             	Entity enemy = new Entity(
-            			enemySprite,
+            			new AnimatedSprite(TextureMap.get("entity_enemy"), 2, 1, 2, 10),
             			new EnemyBehavior(),
             			new BoxCollider(),
             			world
             			);
             	return enemy;
             case HAT:
-            	List<Sprite> hatSprites = new ArrayList<Sprite>();
-            	StaticSprite h = new StaticSprite(TextureMap.get("entity_hat"));
-            	hatSprites.add(h);
             	Entity hat = new Entity(
-            			hatSprites,
+            			new StaticSprite(TextureMap.get("entity_hat")),
             			new HatBehavior(),
             			new EmptyCollider(),
             			world

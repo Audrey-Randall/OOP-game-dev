@@ -9,19 +9,15 @@ import game.component.sprite.*;
 
 public class Entity {
 
-    private List<Sprite> sprite = new ArrayList<Sprite>();
-    private int numberOfSprites = 0;
-    private int currentSprite = 0;
+    private Sprite sprite;
     private Behavior behavior;
     private Collider collider;
     private GameWorld gameWorld;
 
     private double posX, posY, width, height;
 
-    public Entity(List<Sprite> s, Behavior b, Collider c, GameWorld g) {
+    public Entity(Sprite s, Behavior b, Collider c, GameWorld g) {
         sprite = s;
-        numberOfSprites = s.size();
-        System.out.println("Number of Sprites: " + numberOfSprites);
         behavior = b;
         collider = c;
         gameWorld = g;
@@ -29,7 +25,7 @@ public class Entity {
         posX = posY = 0;
         width = height = 64;
 
-        sprite.get(0).setEntity(this);
+        sprite.setEntity(this);
         behavior.setEntity(this);
         collider.setEntity(this);
     }
@@ -39,11 +35,7 @@ public class Entity {
     }
 
     public void render() {
-    	System.out.println("Entity: " + this.getBehavior().toString());
-    	System.out.println("CurrentSprite: " + currentSprite);
-    	System.out.println("Size: " + sprite.size());
-    	System.out.println(sprite.get(currentSprite).toString());
-        sprite.get(currentSprite).render();
+        sprite.render();
     }
 
     public void moveTo(double x, double y) {
@@ -56,15 +48,11 @@ public class Entity {
     }
 
     public Sprite getSprite() {
-    	System.out.println("getSprite");
-        return sprite.get(currentSprite);
+        return sprite;
     }
     
-    public void swapSprite() {
-    	System.out.println("swapSprite");
-    	currentSprite = (currentSprite + 1);
-    	currentSprite = currentSprite % numberOfSprites;
-    	System.out.println("Current Sprite: " + currentSprite);
+    public void swapSprite(Sprite s) {
+    	sprite = s;
     }
     
     public Behavior getBehavior() {

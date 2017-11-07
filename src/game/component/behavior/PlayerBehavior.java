@@ -2,8 +2,11 @@ package game.component.behavior;
 
 import game.Entity;
 import game.component.collider.TilemapCollider;
+import game.component.sprite.AnimatedSprite;
+import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
+import mote4.util.texture.TextureMap;
 
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
@@ -89,7 +92,7 @@ public class PlayerBehavior extends Behavior {
     public void switchCharacter() {
     	currentCharacter = currentCharacter.next();
     	System.out.println("currentCharacter: " + currentCharacter.toString());
-    	entity.swapSprite();
+    	entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
     	System.out.println("switchCharacter");
     }
     
