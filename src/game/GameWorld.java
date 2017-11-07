@@ -3,9 +3,12 @@ package game;
 import game.component.behavior.*;
 import game.component.collider.*;
 import game.component.sprite.*;
+import main.Input;
+import main.Tilemap;
 import menu.MenuHandler;
 import mote4.scenegraph.Scene;
 import mote4.util.matrix.ProjectionMatrix;
+import mote4.util.matrix.ViewMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.texture.TextureMap;
 
@@ -16,44 +19,84 @@ import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
 
 public class GameWorld implements Scene {
+	
+	private static GameWorld instance = null;
 
     private ProjectionMatrix projection;
+    private ViewMatrix view;
     private List<Entity> entities;
     private MenuHandler menuHandler;
+    private Entity player;
+    
+    public void setPlayer(Entity e) { player = e; }
+    public Entity getPlayer() { return player; }
 
-    public GameWorld() {
+    private boolean gamePaused;
+
+    private GameWorld() {
         projection = new ProjectionMatrix();
+        view = new ViewMatrix();
         entities = new ArrayList<>();
         menuHandler = new MenuHandler();
 
-        entities.add(new Entity(
-                new Tilemap(TextureMap.get("tileset")),
-                new EmptyBehavior(),
-                new EmptyCollider()
-        ));
-        entities.add(new Entity(
-                new StaticSprite(TextureMap.get("entity_rat"), 64, 64),
-                new TestBehavior(),
-                new EmptyCollider()
-        ));
+        gamePaused = false;
+
+        EntityFactory factory = new EntityFactory(this);
+        entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
+        entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
+        entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
+        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
     }
 
+    public static GameWorld getInstance() {
+        if(instance == null) {
+           instance = new GameWorld();
+        }
+        return instance;
+     }
+    
     @Override
     public void update(double time, double delta) {
-        for (Entity e : entities)
-            e.update();
+        if (Input.isKeyNew(Input.Key.ESC))
+            gamePaused = !gamePaused;
 
-        menuHandler.update();
+        if (gamePaused) {
+            menuHandler.update();
+        } else {
+            for (Entity e : entities)
+                e.getCollider().act(entities);
+
+            for (Entity e : entities)
+                e.update();
+        }
     }
 
     @Override
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
+
+        ShaderMap.use("texture");
+        view.bind();
+        ShaderMap.use("spritesheet");
+        view.bind();
+
         for (Entity e : entities)
             e.render();
 
-        menuHandler.render();
+        view.setIdentity();
+        if (gamePaused) {
+
+            ShaderMap.use("texture");
+            view.bind();
+            ShaderMap.use("spritesheet");
+            view.bind();
+
+            menuHandler.render();
+        }
     }
 
     @Override
@@ -71,5 +114,9 @@ public class GameWorld implements Scene {
     @Override
     public void destroy() {
 
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
     }
 }
