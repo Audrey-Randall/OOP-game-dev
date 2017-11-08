@@ -12,6 +12,9 @@ import mote4.util.texture.TextureMap;
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
     private double velX, velY;
+    private boolean facingRight = true; 
+    private boolean isMoving = false; 
+    private boolean isFalling = false; 
     private int jumpsLeft = 0;
     double GRAVITY = .65;
     float RACCOON_SPEED = (float)1.1;
@@ -248,6 +251,8 @@ public class PlayerBehavior extends Behavior {
     	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
         	if (!isDead[currentCharacter.index]) {
+        		facingRight = true; 
+        		isMoving = true; 
 	            if (velX < -.2)
 	                velX = (velX / 2.5) * characterStats[currentCharacter.index].getSpeed(); // pivot directions fast
 	            else if (velX < 5)
@@ -260,6 +265,8 @@ public class PlayerBehavior extends Behavior {
         } 
         else if (Input.isKeyDown(Input.Key.LEFT)) {
         	if (!isDead[currentCharacter.index]) {
+        		facingRight = false; 
+        		isMoving = true; 
 	            if (velX > .2)
 	                velX = (velX / 2.5) * characterStats[currentCharacter.index].getSpeed();
 	            else if (velX > -5)
@@ -270,8 +277,10 @@ public class PlayerBehavior extends Behavior {
         		System.out.printf(" dead. WaitTime: %.2f%n", (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         } 
-        else
+        else {
+        	isMoving = false;
             velX = (velX / 1.5);
+        }
 
         entity.move(velX,0);
         // check collision in x direction
