@@ -101,8 +101,10 @@ public class GameWorld implements Scene {
     @Override
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
-
-        view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
+        float translateTo = (float)-player.posX()+320-(float)player.width()/2;
+        if (translateTo > 0) translateTo = 0;
+        // else if (translateTo < ???) translateTo = ???;
+        view.translate(translateTo, 0);
 
         ShaderMap.use("spritesheet");
         view.bind();
