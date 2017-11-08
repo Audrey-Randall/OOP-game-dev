@@ -38,12 +38,10 @@ public class FoodBehavior extends Behavior {
     		 PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
     		 if (food == foodType.TRASH) {
     			playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) .5);
-    		 	System.out.println("You got " + food.toString());
     		 }
     		 else {
     			 if(matchingFoodType.get(food) == playerBehavior.getCurrentCharacter()) {
     				 playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) 2);
-    				 System.out.println("You got " + food.toString());
     			 }
     		 }
     	}	
@@ -54,6 +52,5 @@ public class FoodBehavior extends Behavior {
     	StaticSprite s = (StaticSprite)entity.getSprite();
     	s.setSprite(f.index);
     	food = f;
-    	System.out.println(food.toString());
     }
 }
