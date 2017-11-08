@@ -12,6 +12,9 @@ import mote4.util.texture.TextureMap;
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
     private double velX, velY;
+    private boolean facingRight = true;
+    private boolean isMoving = false;
+    private boolean isFalling = false;
     private int jumpsLeft = 0;
        
     private int score = 0;
@@ -179,17 +182,23 @@ public class PlayerBehavior extends Behavior {
     	 }
     	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
+        	facingRight = true;
+        	isMoving = true;
             if (velX < -.2)
                 velX /= 2.5; // pivot directions fast
             else if (velX < 5)
                 velX += .5;
         } else if (Input.isKeyDown(Input.Key.LEFT)) {
+        	facingRight = false;
+        	isMoving = true;
             if (velX > .2)
                 velX /= 2.5;
             else if (velX > -5)
                 velX -= .5;
-        } else
+        } else{
+        	isMoving = false;
             velX /= 1.5;
+        }
 
         entity.move(velX,0);
         // check collision in x direction
