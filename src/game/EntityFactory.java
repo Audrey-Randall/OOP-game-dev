@@ -63,7 +63,7 @@ public class EntityFactory {
             	return enemy;
             case HAT:
             	Entity hat = new Entity(
-            			new StaticSprite(TextureMap.get("entity_hat"),1,1,0),
+            			new StaticSprite(TextureMap.get("entity_santahat"),1,1,0),
             			new HatBehavior(),
             			new EmptyCollider(),
             			world
