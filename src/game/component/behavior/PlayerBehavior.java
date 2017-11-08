@@ -71,14 +71,17 @@ public class PlayerBehavior extends Behavior {
 		private void increaseHealth(float update) {
 			health = Math.min(health + update, MAX_HEALTH);
 			if (health <= 0) {
+				setHealth(0);
 				setTimer(0);
 				setIsCharacterDead(character.index, true);
 			}
 		}
 		
 		private void decreaseHealth(float update) {
-			health -= update;
+			if (!getIsCharacterDead(character.index))
+				health -= update;
 			if (health <= 0) {
+				setHealth(0);
 				setTimer(0);
 				setIsCharacterDead(character.index, true);
 			}
@@ -87,6 +90,7 @@ public class PlayerBehavior extends Behavior {
 		private void setHealth(float update) {
 			health = update;
 			if (health <= 0) {
+				health = 0;
 				setTimer(0);
 				setIsCharacterDead(character.index, true);
 			}
@@ -103,7 +107,7 @@ public class PlayerBehavior extends Behavior {
 		}
 		
 		private void setTimer(double update) {
-			timer += update;
+			timer = update;
 			if (timer >= 10)
 				setIsCharacterDead(character.index, false);
 		}
@@ -227,6 +231,7 @@ public class PlayerBehavior extends Behavior {
     	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	
     	characterStats[0].updateTimer(Window.delta());
     	characterStats[1].updateTimer(Window.delta());
     	characterStats[2].updateTimer(Window.delta());
@@ -241,16 +246,16 @@ public class PlayerBehavior extends Behavior {
     	 }
     	
     	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
-    		 if (!isDead[currentCharacter.index])
+    		 if (!getIsCharacterDead(currentCharacter.index))
     			 performSpecialBehavior();
     		 else {
          		System.out.print(currentCharacter.toString());
-         		System.out.printf(" dead. WaitTime: %.2f%n", (float)(characterStats[currentCharacter.index].getTimer()) );
+         		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
          	}
     	 }
     	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
-        	if (!isDead[currentCharacter.index]) {
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = true; 
         		isMoving = true; 
 	            if (velX < -.2)
@@ -260,11 +265,11 @@ public class PlayerBehavior extends Behavior {
         	}
         	else {
         		System.out.print(currentCharacter.toString());
-        		System.out.printf(" dead. WaitTime: %.2f%n", (float)(characterStats[currentCharacter.index].getTimer()) );
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         } 
         else if (Input.isKeyDown(Input.Key.LEFT)) {
-        	if (!isDead[currentCharacter.index]) {
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = false; 
         		isMoving = true; 
 	            if (velX > .2)
@@ -274,7 +279,7 @@ public class PlayerBehavior extends Behavior {
         	}
         	else {
         		System.out.print(currentCharacter.toString());
-        		System.out.printf(" dead. WaitTime: %.2f%n", (float)(characterStats[currentCharacter.index].getTimer()) );
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         } 
         else {
@@ -297,13 +302,13 @@ public class PlayerBehavior extends Behavior {
 
         velY += GRAVITY; // gravity
         if (jumpsLeft > 0 && Input.isKeyNew(Input.Key.UP)) {
-        	if (!isDead[currentCharacter.index]) {
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
 	            velY = -JUMP_HEIGHT;
 	            jumpsLeft--;
         	}
         	else {
         		System.out.print(currentCharacter.toString());
-        		System.out.printf(" dead. WaitTime: %.2f%n", (float)(characterStats[currentCharacter.index].getTimer()) );
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         }
 
