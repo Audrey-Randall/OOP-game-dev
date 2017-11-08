@@ -39,6 +39,45 @@ public class PlayerBehavior extends Behavior {
 	}
 	
 	private character currentCharacter = character.RAT;
+	
+	class characterInfo {
+		float health = INITIAL_HEALTH;
+		double timer = 7;
+		float speed;
+		
+		private void updateHealth(float update) {
+			health += update;
+		}
+		
+		private void overrideHealth(float update) {
+			health = update;
+		}
+		
+		private float getHealth() {
+			return health;
+		}
+		
+		private void updateTimer(double update) {
+			timer += update;
+		}
+		
+		private void overrideTimer(double update) {
+			timer = update;
+		}
+		
+		private double getTimer() {
+			return timer;
+		}
+		
+		private void setSpeed(float s) {
+			speed = s;
+		}
+		
+		private float getSpeed() {
+			return speed;
+		}
+		
+	}
 
 	private float[] characterStats = new float[3];
 	
@@ -49,6 +88,7 @@ public class PlayerBehavior extends Behavior {
     	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
     	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
     	characterStats[character.RAT.index] = INITIAL_HEALTH;
+    	
         behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoon.claw(); } };
         behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possum.playDead(); } };
         behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { rat.scurry(); } };
