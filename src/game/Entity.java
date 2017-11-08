@@ -70,5 +70,6 @@ public class Entity {
     public double width() { return width; }
     public double height() { return height; }
 
+    public void kill() { isAlive = false; }
     public boolean isAlive() { return isAlive; }
 }
