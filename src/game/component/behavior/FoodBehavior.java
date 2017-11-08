@@ -4,6 +4,8 @@ import java.util.Hashtable;
 
 import game.Entity;
 import game.GameWorld;
+import game.component.behavior.FoodBehavior.foodType;
+import game.component.behavior.PlayerBehavior.character;
 import game.component.sprite.StaticSprite;
 import mote4.scenegraph.Window;
 import mote4.util.texture.TextureMap;
@@ -22,7 +24,7 @@ public class FoodBehavior extends Behavior {
         }	
 	}
 	foodType food = foodType.TRASH;
-	Hashtable matchingFoodType = new Hashtable();
+	Hashtable<foodType, character> matchingFoodType = new Hashtable<foodType, character>();
 	//PlayerBehavior.character[] matchingFoodType = new PlayerBehavior.character[3];
 	
 	public FoodBehavior() {
