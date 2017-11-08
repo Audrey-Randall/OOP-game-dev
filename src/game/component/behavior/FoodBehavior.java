@@ -38,12 +38,15 @@ public class FoodBehavior extends Behavior {
     		 PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
     		 if (food == foodType.TRASH) {
     			playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) .5);
+    			entity.kill();
     		 }
     		 else {
     			 if(matchingFoodType.get(food) == playerBehavior.getCurrentCharacter()) {
     				 playerBehavior.boostHealth(playerBehavior.getCurrentCharacter(), (float) 2);
+    				 entity.kill();
     			 }
     		 }
+    		 
     	}	
     }
     public void setFoodType(foodType f) {
