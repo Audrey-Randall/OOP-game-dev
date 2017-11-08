@@ -95,6 +95,13 @@ public class GameWorld implements Scene {
 
             for (Entity e : entities)
                 e.update();
+
+            for (int i = 0; i < entities.size(); i++) {
+                if (!entities.get(i).isAlive()) {
+                    entities.remove(i);
+                    i--;
+                }
+            }
         }
     }
 

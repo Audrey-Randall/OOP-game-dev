@@ -1,11 +1,8 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import game.component.behavior.Behavior;
 import game.component.collider.Collider;
-import game.component.sprite.*;
+import game.component.sprite.Sprite;
 
 public class Entity {
 
@@ -15,6 +12,7 @@ public class Entity {
     private GameWorld gameWorld;
 
     private double posX, posY, width, height;
+    private boolean isAlive;
 
     public Entity(Sprite s, Behavior b, Collider c, GameWorld g) {
         sprite = s;
@@ -22,6 +20,7 @@ public class Entity {
         collider = c;
         gameWorld = g;
 
+        isAlive = true;
         posX = posY = 0;
         width = height = 64;
 
@@ -70,4 +69,6 @@ public class Entity {
     public double posY() { return posY; }
     public double width() { return width; }
     public double height() { return height; }
+
+    public boolean isAlive() { return isAlive; }
 }
