@@ -77,6 +77,11 @@ public class EntityFactory {
             			world
             			);
             	return food;
+            /*
+            case COSMETIC:
+            	
+            */
+            	
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
         }
