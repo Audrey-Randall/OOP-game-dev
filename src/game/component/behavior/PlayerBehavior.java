@@ -347,7 +347,9 @@ public class PlayerBehavior extends Behavior {
 
     @Override
     public void onCollide(Entity e) {
-
+    	if (e.getBehavior().getClass().getSimpleName().equals("CosmeticBehavior")){
+    		
+    	}
     }
     
     public Entity getHat(){

@@ -49,4 +49,11 @@ public class HatBehavior extends Behavior {
     	
     	
     }
+    
+    public void addHat(Sprite hat){
+    	if (hats.contains(hat)) return;
+    	hats.add(hat);
+    	currentHat = hats.size()-1;
+    	changeSprite = true;
+    }
 }
