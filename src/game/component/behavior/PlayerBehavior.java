@@ -1,6 +1,9 @@
 package game.component.behavior;
 
 import game.Entity;
+import game.EntityFactory;
+import game.EntityFactory.EntityType;
+import game.GameWorld;
 import game.component.collider.TilemapCollider;
 import game.component.sprite.AnimatedSprite;
 import game.component.sprite.PlayerSprite;
@@ -16,6 +19,7 @@ public class PlayerBehavior extends Behavior {
     private boolean isMoving = false; 
     private boolean isFalling = false; 
     private int jumpsLeft = 0;
+    private Entity hat;
     double GRAVITY = .65;
     float RACCOON_SPEED = (float)1.1;
     float RAT_SPEED = (float)1.5;
@@ -141,6 +145,8 @@ public class PlayerBehavior extends Behavior {
     	opossum.setSpeed(OPOSSUM_SPEED);
     	rat.setSpeed(RAT_SPEED);
     	
+    	hat = null;
+    	
     	characterStats[character.RACCOON.index] = raccoon;
     	characterStats[character.OPOSSUM.index] = opossum;
     	characterStats[character.RAT.index] = rat;
@@ -222,6 +228,9 @@ public class PlayerBehavior extends Behavior {
     
     @Override
     public void act() {
+    	if (hat == null){
+    		hat = new EntityFactory(entity.getGameWorld()).getEntity(EntityType.HAT);
+    	}
     	if(isDead[0] == true && isDead[1] ==  true && isDead[2] == true)
     		Window.destroy();
     	
@@ -326,6 +335,7 @@ public class PlayerBehavior extends Behavior {
                     while (entity.getCollider().collidesWith(e.getCollider()));
                     velY = 0;
                 }
+        hat.getBehavior().act();
     }
     
     public void printStats() {
@@ -338,5 +348,9 @@ public class PlayerBehavior extends Behavior {
     @Override
     public void onCollide(Entity e) {
 
+    }
+    
+    public Entity getHat(){
+    	return hat;
     }
 }

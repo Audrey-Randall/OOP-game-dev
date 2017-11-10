@@ -8,6 +8,7 @@ import main.Input;
 import main.Tilemap;
 import menu.MenuHandler;
 import mote4.scenegraph.Scene;
+import mote4.util.FileIO;
 import mote4.util.matrix.ProjectionMatrix;
 import mote4.util.matrix.ViewMatrix;
 import mote4.util.shader.ShaderMap;
@@ -15,6 +16,8 @@ import mote4.util.texture.TextureMap;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.print.attribute.standard.PrinterLocation;
 
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -60,15 +63,17 @@ public class GameWorld implements Scene {
         menuHandler = new MenuHandler();
 
         gamePaused = false;
-
+        
         EntityFactory factory = new EntityFactory(this);
+        String file = FileIO.getString("/res/files/level1.txt");
+        System.out.println();
         entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
         entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
         entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
-        entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
+        // entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
         entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
         entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
         placeEnemies();

@@ -23,11 +23,16 @@ public class PlayerSprite extends Sprite {
     public void setEntity(Entity e) {
         for (AnimatedSprite s : SPRITES)
             s.setEntity(e);
+        entity = e;
     }
 
     @Override
     public void render() {
         SPRITES[index].render();
+        if (entity.getBehavior().getClass().getName().equals("game.component.behavior.PlayerBehavior")){
+        	PlayerBehavior pb = (PlayerBehavior)(entity.getBehavior());
+        	pb.getHat().getSprite().render();
+        }
     }
 
     public void setSprite(PlayerBehavior.character c) {

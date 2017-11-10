@@ -1,6 +1,7 @@
 package game.component.behavior;
 
 import java.util.ArrayList;
+import java.io.File;
 
 import game.Entity;
 import game.GameWorld;
