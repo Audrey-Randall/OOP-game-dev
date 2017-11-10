@@ -334,6 +334,14 @@ public class PlayerBehavior extends Behavior {
     	System.out.printf(currentCharacter.next().next().toString() + ": %.2f%n", characterStats[currentCharacter.next().next().index].getHealth());
     	System.out.println("Score: " + score);
     }
+    public double[] getPlayerInfo() {
+    	return new double[] {
+			characterStats[character.RAT.index].getHealth(),
+			characterStats[character.RACCOON.index].getHealth(),
+			characterStats[character.OPOSSUM.index].getHealth(),
+			score
+		};
+	}
 
     @Override
     public void onCollide(Entity e) {

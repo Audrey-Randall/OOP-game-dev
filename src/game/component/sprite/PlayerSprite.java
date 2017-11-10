@@ -13,8 +13,7 @@ public class PlayerSprite extends Sprite {
         SPRITES = new AnimatedSprite[] {
         		new AnimatedSprite(TextureMap.get("entity_rat"),  2,1,2,15),
                 new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15),
-                new AnimatedSprite(TextureMap.get("entity_cheese"),  1,1,1,15)
-                
+                new AnimatedSprite(TextureMap.get("entity_raccoon"),  2,1,2,15)
         };
         index = 0;
     }
