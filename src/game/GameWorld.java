@@ -15,6 +15,7 @@ import mote4.util.shader.ShaderMap;
 import mote4.util.texture.TextureMap;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.print.attribute.standard.PrinterLocation;
@@ -65,9 +66,9 @@ public class GameWorld implements Scene {
         gamePaused = false;
         
         EntityFactory factory = new EntityFactory(this);
-        String file = FileIO.getString("/res/files/level1.txt");
-        System.out.println();
         entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
+        String file = FileIO.getString("/res/files/level1Objects.txt");
+        /*
         entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
         entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
         entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
@@ -78,6 +79,39 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
         placeEnemies();
         placeFood();
+        */
+    }
+    
+    private void createGameWorld(String[] mapAndLegend, EntityFactory factory){
+    	boolean getFullLegend = true;
+    	Hashtable<String, EntityFactory.EntityType> legend = 
+    			new Hashtable<String, EntityFactory.EntityType>(); // Definitely OVERKILL.
+    	int yOffset = 0;
+    	
+    	for (int i = 0; i < mapAndLegend.length; i++){
+    		if (getFullLegend){
+    			if (mapAndLegend[i].length() > 2 && mapAndLegend[i].charAt(1) == ' '){
+    				String key = mapAndLegend[i].substring(0, 1);
+    				String rest = mapAndLegend[i].substring(2);
+    				if (rest.indexOf(" ") == -1)
+						legend.put(key, EntityFactory.EntityType.valueOf(rest));
+    				else{
+    					legend.put(key, EntityFactory.EntityType.valueOf(rest.substring(0, rest.indexOf(" "))));
+    				}
+    			} else{
+    				yOffset = i+1;
+    				getFullLegend = false;
+    			}
+    		} else {
+    			for (int j = 0; j < mapAndLegend[i].length(); j++){
+    				EntityFactory.EntityType type = legend.get(mapAndLegend[i].charAt(j));
+    				if (type != null){
+    					entities.add(factory.getEntity(type));
+    				}
+    			}
+    		}
+    	}
+    	
     }
 
     public static GameWorld getInstance() {
