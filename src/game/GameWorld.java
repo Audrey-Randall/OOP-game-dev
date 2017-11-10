@@ -95,14 +95,23 @@ public class GameWorld implements Scene {
 
             for (Entity e : entities)
                 e.update();
+
+            for (int i = 0; i < entities.size(); i++) {
+                if (!entities.get(i).isAlive()) {
+                    entities.remove(i);
+                    i--;
+                }
+            }
         }
     }
 
     @Override
     public void render(double time, double delta) {
         glClear(GL_COLOR_BUFFER_BIT);
-
-        view.translate((int)-player.posX()+320-(float)player.width()/2, 0);
+        float translateTo = (float)-player.posX()+320-(float)player.width()/2;
+        if (translateTo > 0) translateTo = 0;
+        // else if (translateTo < ???) translateTo = ???;
+        view.translate(translateTo, 0);
 
         ShaderMap.use("spritesheet");
         view.bind();

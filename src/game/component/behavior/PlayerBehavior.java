@@ -12,7 +12,24 @@ import mote4.util.texture.TextureMap;
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
     private double velX, velY;
+    private boolean facingRight = true; 
+    private boolean isMoving = false; 
+    private boolean isFalling = false; 
     private int jumpsLeft = 0;
+    double GRAVITY = .65;
+    float RACCOON_SPEED = (float)1.1;
+    float RAT_SPEED = (float)1.5;
+    float OPOSSUM_SPEED = (float).8;
+    float JUMP_HEIGHT = 16;
+    private boolean[] isDead = new boolean[3];
+    
+    public boolean getIsCharacterDead(int characterIndex) {
+    	return isDead[characterIndex];
+    }
+    
+    public void setIsCharacterDead(int characterIndex, boolean dead) {
+    	isDead[characterIndex] = dead;
+    }
        
     private int score = 0;
 	
@@ -39,19 +56,107 @@ public class PlayerBehavior extends Behavior {
 	}
 	
 	private character currentCharacter = character.RAT;
+	
+	public class CharacterInfo {
+		float health = INITIAL_HEALTH;
+		double timer = 10;
+		float speed;
+		PlayerBehavior.character character;
+		
+		public CharacterInfo(PlayerBehavior.character characterType) {
+			character = characterType;
+		}
+		
+		
+		private void increaseHealth(float update) {
+			health = Math.min(health + update, MAX_HEALTH);
+			if (health <= 0) {
+				setHealth(0);
+				setTimer(0);
+				setIsCharacterDead(character.index, true);
+			}
+		}
+		
+		private void decreaseHealth(float update) {
+			if (!getIsCharacterDead(character.index))
+				health -= update;
+			if (health <= 0) {
+				setHealth(0);
+				setTimer(0);
+				setIsCharacterDead(character.index, true);
+			}
+		}
+		
+		private void setHealth(float update) {
+			health = update;
+			if (health <= 0) {
+				health = 0;
+				setTimer(0);
+				setIsCharacterDead(character.index, true);
+			}
+		}
+		
+		private float getHealth() {
+			return health;
+		}
+		
+		private void updateTimer(double update) { //Considered "alive" if timer is greater than 10
+			timer += update;
+			if (timer >= 10)
+				setIsCharacterDead(character.index, false);
+		}
+		
+		private void setTimer(double update) {
+			timer = update;
+			if (timer >= 10)
+				setIsCharacterDead(character.index, false);
+		}
+		
+		private double getTimer() {
+			return timer;
+		}
+		
+		private void setSpeed(float s) {
+			speed = s;
+		}
+		
+		private float getSpeed() {
+			return speed;
+		}
+		
+	}
 
-	private float[] characterStats = new float[3];
+	private CharacterInfo[] characterStats = new CharacterInfo[3];
 	
 	private float INITIAL_HEALTH = 4;
+	private float MAX_HEALTH = 5;
 	private float HEALTH_SCALE_FACTOR = 100;
 
     public PlayerBehavior() {
-    	characterStats[character.RACCOON.index] = INITIAL_HEALTH;
-    	characterStats[character.OPOSSUM.index] = INITIAL_HEALTH;
-    	characterStats[character.RAT.index] = INITIAL_HEALTH;
-        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoon.claw(); } };
-        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possum.playDead(); } };
-        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { rat.scurry(); } };
+    	CharacterInfo raccoon = new CharacterInfo(character.RACCOON);
+    	CharacterInfo opossum = new CharacterInfo(character.OPOSSUM);
+    	CharacterInfo rat = new CharacterInfo(character.RAT);
+
+    	raccoon.setSpeed(RACCOON_SPEED);
+    	opossum.setSpeed(OPOSSUM_SPEED);
+    	rat.setSpeed(RAT_SPEED);
+    	
+    	characterStats[character.RACCOON.index] = raccoon;
+    	characterStats[character.OPOSSUM.index] = opossum;
+    	characterStats[character.RAT.index] = rat;
+    	
+    	RaccoonBehavior raccoonB = new RaccoonBehavior();
+    	PossumBehavior possumB = new PossumBehavior();    	
+    	RatBehavior ratB = new RatBehavior();
+    	
+        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoonB.claw(); } };
+        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possumB.playDead(); } };
+        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { ratB.scurry(); } };
+        
+        setIsCharacterDead(character.RACCOON.index, false);
+        setIsCharacterDead(character.RAT.index, false);
+        setIsCharacterDead(character.OPOSSUM.index, false);
+
     }
     
     public interface SpecialBehaviors {
@@ -96,7 +201,6 @@ public class PlayerBehavior extends Behavior {
     	currentCharacter = currentCharacter.next();
         PlayerSprite s = (PlayerSprite)entity.getSprite();
         s.setSprite(currentCharacter);
-    	//entity.swapSprite(new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15));
     }
     
     public void adjustScore(int scoreIncrease) {
@@ -105,11 +209,11 @@ public class PlayerBehavior extends Behavior {
     
 
     public void tickHealth(character characterName, float healthDecrease) {
-    	characterStats[characterName.index] -= healthDecrease;
+    	characterStats[characterName.index].decreaseHealth(healthDecrease);
     }
     
     public void boostHealth(character characterName, float healthIncrease) {
-    	characterStats[characterName.index] += healthIncrease;
+    	characterStats[characterName.index].increaseHealth(healthIncrease);
     }
     
     public character getCurrentCharacter( ) {
@@ -118,12 +222,19 @@ public class PlayerBehavior extends Behavior {
     
     @Override
     public void act() {
+    	if(isDead[0] == true && isDead[1] ==  true && isDead[2] == true)
+    		Window.destroy();
+    	
     	printCounter += Window.delta();
     	
     	//Boosts health of unused characters and wears out character in use
     	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
     	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    	
+    	characterStats[0].updateTimer(Window.delta());
+    	characterStats[1].updateTimer(Window.delta());
+    	characterStats[2].updateTimer(Window.delta());
     	
     	if (printCounter > 3) {
     		printStats();
@@ -135,21 +246,46 @@ public class PlayerBehavior extends Behavior {
     	 }
     	
     	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
-    		 performSpecialBehavior();
+    		 if (!getIsCharacterDead(currentCharacter.index))
+    			 performSpecialBehavior();
+    		 else {
+         		System.out.print(currentCharacter.toString());
+         		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
+         	}
     	 }
     	 
         if (Input.isKeyDown(Input.Key.RIGHT)) {
-            if (velX < -.2)
-                velX /= 2.5; // pivot directions fast
-            else if (velX < 5)
-                velX += .5;
-        } else if (Input.isKeyDown(Input.Key.LEFT)) {
-            if (velX > .2)
-                velX /= 2.5;
-            else if (velX > -5)
-                velX -= .5;
-        } else
-            velX /= 1.5;
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
+        		facingRight = true; 
+        		isMoving = true; 
+	            if (velX < -.2)
+	                velX = (velX / 2.5) * characterStats[currentCharacter.index].getSpeed(); // pivot directions fast
+	            else if (velX < 5)
+	                velX = (velX + .5) * characterStats[currentCharacter.index].getSpeed();
+        	}
+        	else {
+        		System.out.print(currentCharacter.toString());
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
+        	}
+        } 
+        else if (Input.isKeyDown(Input.Key.LEFT)) {
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
+        		facingRight = false; 
+        		isMoving = true; 
+	            if (velX > .2)
+	                velX = (velX / 2.5) * characterStats[currentCharacter.index].getSpeed();
+	            else if (velX > -5)
+	                velX = (velX - .5) * characterStats[currentCharacter.index].getSpeed();
+        	}
+        	else {
+        		System.out.print(currentCharacter.toString());
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
+        	}
+        } 
+        else {
+        	isMoving = false;
+            velX = (velX / 1.5);
+        }
 
         entity.move(velX,0);
         // check collision in x direction
@@ -164,10 +300,16 @@ public class PlayerBehavior extends Behavior {
                     velX = 0;
                 }
 
-        velY += .65; // gravity
+        velY += GRAVITY; // gravity
         if (jumpsLeft > 0 && Input.isKeyNew(Input.Key.UP)) {
-            velY = -16;
-            jumpsLeft--;
+        	 if (!getIsCharacterDead(currentCharacter.index)) {
+	            velY = -JUMP_HEIGHT;
+	            jumpsLeft--;
+        	}
+        	else {
+        		System.out.print(currentCharacter.toString());
+        		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
+        	}
         }
 
         entity.move(0,velY);
@@ -187,9 +329,9 @@ public class PlayerBehavior extends Behavior {
     }
     
     public void printStats() {
-    	System.out.println(currentCharacter.toString() + ": " + characterStats[currentCharacter.index]);
-    	System.out.println(currentCharacter.next().toString() + ": " + characterStats[currentCharacter.next().index]);
-    	System.out.println(currentCharacter.next().next().toString() + ": " + characterStats[currentCharacter.next().next().index]);
+    	System.out.printf(currentCharacter.toString() + ": %.2f%n", characterStats[currentCharacter.index].getHealth());
+    	System.out.printf(currentCharacter.next().toString() + ": %.2f%n", characterStats[currentCharacter.next().index].getHealth());
+    	System.out.printf(currentCharacter.next().next().toString() + ": %.2f%n", characterStats[currentCharacter.next().next().index].getHealth());
     	System.out.println("Score: " + score);
     }
 

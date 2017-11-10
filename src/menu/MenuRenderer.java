@@ -3,6 +3,7 @@ package menu;
 import menu.behavior.MenuBehavior;
 import mote4.util.matrix.ModelMatrix;
 import mote4.util.shader.ShaderMap;
+import mote4.util.shader.Uniform;
 import mote4.util.texture.TextureMap;
 import mote4.util.vertex.FontUtils;
 import mote4.util.vertex.mesh.Mesh;
@@ -32,7 +33,8 @@ public class MenuRenderer {
     }
 
     public void render(int index) {
-        ShaderMap.use("texture");
+        ShaderMap.use("spritesheet");
+        Uniform.vec("spriteInfo",1,1,0);
         TextureMap.bind("font_1");
 
         model.bind();

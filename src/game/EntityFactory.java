@@ -63,7 +63,7 @@ public class EntityFactory {
             	return enemy;
             case HAT:
             	Entity hat = new Entity(
-            			new StaticSprite(TextureMap.get("entity_hat"),1,1,0),
+            			new StaticSprite(TextureMap.get("entity_santahat"),1,1,0),
             			new HatBehavior(),
             			new EmptyCollider(),
             			world
@@ -71,7 +71,7 @@ public class EntityFactory {
             	return hat;
             case FOOD:
             	Entity food = new Entity(
-            			new StaticSprite(TextureMap.get("entity_food"),1,1,1),
+            			new StaticSprite(TextureMap.get("entity_food"),2,1,0),
             			new FoodBehavior(),
             			new BoxCollider(),
             			world

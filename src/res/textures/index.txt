@@ -3,7 +3,8 @@ font/misterpixel/misterpixel	font_1
 
 rat		entity_rat
 possum		entity_possum
-TempHat		entity_hat
+TempHat		entity_chefhat
+SantaHat	entity_santahat
 
 coin		entity_coin
 enemy		entity_enemy

@@ -1,5 +1,7 @@
 package game.component.sprite;
 
+import game.Entity;
+import game.component.behavior.PlayerBehavior;
 import mote4.util.matrix.ModelMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.shader.Uniform;
@@ -34,5 +36,10 @@ public class StaticSprite extends Sprite {
             MeshMap.render("quad");
         }
         model.pop();
+    }
+
+    
+    public void setSprite(int newIndex) {
+        frame = newIndex;
     }
 }
