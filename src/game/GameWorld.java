@@ -1,18 +1,15 @@
 package game;
 
-import game.component.behavior.*;
-import game.component.collider.*;
-import game.component.sprite.*;
-import javafx.util.Pair;
+import game.component.behavior.EnemyBehavior;
+import game.component.behavior.FoodBehavior;
 import main.Input;
-import main.Tilemap;
+import menu.GameHUD;
 import menu.MenuHandler;
 import mote4.scenegraph.Scene;
 import mote4.util.FileIO;
 import mote4.util.matrix.ProjectionMatrix;
 import mote4.util.matrix.ViewMatrix;
 import mote4.util.shader.ShaderMap;
-import mote4.util.texture.TextureMap;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -33,6 +30,7 @@ public class GameWorld implements Scene {
     private ViewMatrix view;
     private List<Entity> entities;
     private MenuHandler menuHandler;
+    private GameHUD gameHUD;
     private Entity player;
 
     
@@ -51,7 +49,7 @@ public class GameWorld implements Scene {
     	EnemyPosition[2] = 300.;
     	EnemyPosition[3] = 70.;
     	EnemyPosition[4] = 400.;
-    	EnemyPosition[5] = 100.;
+    	EnemyPosition[5] = 300.;
     	FoodPosition[0] = 50.;
     	FoodPosition[1] = 150.;
     	FoodPosition[2] = 500.;
@@ -62,6 +60,7 @@ public class GameWorld implements Scene {
         view = new ViewMatrix();
         entities = new ArrayList<>();
         menuHandler = new MenuHandler();
+        gameHUD = new GameHUD();
 
         gamePaused = false;
         
@@ -164,11 +163,9 @@ public class GameWorld implements Scene {
             e.render();
 
         view.setIdentity();
+        view.bind();
+        gameHUD.render();
         if (gamePaused) {
-
-            ShaderMap.use("spritesheet");
-            view.bind();
-
             menuHandler.render();
         }
     }

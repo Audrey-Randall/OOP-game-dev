@@ -5,12 +5,9 @@ import game.EntityFactory;
 import game.EntityFactory.EntityType;
 import game.GameWorld;
 import game.component.collider.TilemapCollider;
-import game.component.sprite.AnimatedSprite;
 import game.component.sprite.PlayerSprite;
-import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
-import mote4.util.texture.TextureMap;
 
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
@@ -155,9 +152,9 @@ public class PlayerBehavior extends Behavior {
     	PossumBehavior possumB = new PossumBehavior();    	
     	RatBehavior ratB = new RatBehavior();
     	
-        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoonB.claw(); } };
-        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possumB.playDead(); } };
-        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { ratB.scurry(); } };
+        behaviorList[character.RACCOON.index] = () -> raccoonB.claw();
+        behaviorList[character.OPOSSUM.index] = () -> possumB.playDead();
+        behaviorList[character.RAT.index] = () -> ratB.scurry();
         
         setIsCharacterDead(character.RACCOON.index, false);
         setIsCharacterDead(character.RAT.index, false);
@@ -344,6 +341,14 @@ public class PlayerBehavior extends Behavior {
     	System.out.printf(currentCharacter.next().next().toString() + ": %.2f%n", characterStats[currentCharacter.next().next().index].getHealth());
     	System.out.println("Score: " + score);
     }
+    public double[] getPlayerInfo() {
+    	return new double[] {
+			characterStats[character.RAT.index].getHealth(),
+			characterStats[character.RACCOON.index].getHealth(),
+			characterStats[character.OPOSSUM.index].getHealth(),
+			score
+		};
+	}
 
     @Override
     public void onCollide(Entity e) {
