@@ -68,6 +68,7 @@ public class GameWorld implements Scene {
         EntityFactory factory = new EntityFactory(this);
         entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
         String file = FileIO.getString("/res/files/level1Objects.txt");
+        createGameWorld(file.split("\n"), factory);
         /*
         entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
         entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
@@ -104,9 +105,13 @@ public class GameWorld implements Scene {
     			}
     		} else {
     			for (int j = 0; j < mapAndLegend[i].length(); j++){
-    				EntityFactory.EntityType type = legend.get(mapAndLegend[i].charAt(j));
+    				EntityFactory.EntityType type = legend.get(mapAndLegend[i].substring(j,j+1));
     				if (type != null){
-    					entities.add(factory.getEntity(type));
+    					Entity e = factory.getEntity(type);
+    					// Hard coded for now; Please fix.
+    					e.moveTo(j*32, (i-yOffset)*20);
+    					entities.add(e);
+    					
     				}
     			}
     		}
