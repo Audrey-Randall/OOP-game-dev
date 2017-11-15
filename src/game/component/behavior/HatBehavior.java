@@ -32,11 +32,11 @@ public class HatBehavior extends Behavior {
     	Entity player = GameWorld.getInstance().getPlayer();
     	entity.moveTo(player.posX(), player.posY() - 60);
     	// Abuse of Unused Keys, probably?
-    	if (Input.isKeyNew(Input.Key.NO) && hats.size() > 0){
+    	if (Input.getInstance().isKeyNew(Input.Key.NO) && hats.size() > 0){
     		currentHat += 1;
     		if (currentHat >= hats.size()) currentHat = 0;
     		changeSprite = true;
-    	} else if (Input.isKeyNew(Input.Key.YES) && hats.size() > 0){
+    	} else if (Input.getInstance().isKeyNew(Input.Key.YES) && hats.size() > 0){
     		currentHat -= 1;
     		if (currentHat < 0) currentHat = hats.size()-1;
     		changeSprite = true;
