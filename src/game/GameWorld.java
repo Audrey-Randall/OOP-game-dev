@@ -34,28 +34,12 @@ public class GameWorld implements Scene {
     private Entity player;
 
     
-    private double[] EnemyPosition = new double[NUMBER_OF_ENEMIES * 2];
-    private double[] FoodPosition = new double[NUMBER_OF_FOODS * 2];
-    private FoodBehavior.foodType[] FoodType = new FoodBehavior.foodType[NUMBER_OF_FOODS];
-    
     public void setPlayer(Entity e) { player = e; }
     public Entity getPlayer() { return player; }
 
     private boolean gamePaused;
 
     private GameWorld() {
-    	EnemyPosition[0] = 20.;
-    	EnemyPosition[1] = 30.;
-    	EnemyPosition[2] = 300.;
-    	EnemyPosition[3] = 70.;
-    	EnemyPosition[4] = 400.;
-    	EnemyPosition[5] = 300.;
-    	FoodPosition[0] = 50.;
-    	FoodPosition[1] = 150.;
-    	FoodPosition[2] = 500.;
-    	FoodPosition[3] = 100.;
-    	FoodType[0] = FoodBehavior.foodType.TRASH;
-    	FoodType[1] = FoodBehavior.foodType.CHEESE;
         projection = new ProjectionMatrix();
         view = new ViewMatrix();
         entities = new ArrayList<>();
@@ -68,24 +52,13 @@ public class GameWorld implements Scene {
         entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
         String file = FileIO.getString("/res/files/level1Objects.txt");
         createGameWorld(file.split("\n"), factory);
-        /*
-        entities.add(factory.getEntity(EntityFactory.EntityType.COIN));
-        entities.add(factory.getEntity(EntityFactory.EntityType.PLAYER));
-        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
-        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
-        entities.add(factory.getEntity(EntityFactory.EntityType.ENEMY));
-        // entities.add(factory.getEntity(EntityFactory.EntityType.HAT));
-        entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
-        entities.add(factory.getEntity(EntityFactory.EntityType.FOOD));
-        placeEnemies();
-        placeFood();
-        */
     }
     
     private void createGameWorld(String[] mapAndLegend, EntityFactory factory){
     	boolean getFullLegend = true;
     	Hashtable<String, EntityFactory.EntityType> legend = 
     			new Hashtable<String, EntityFactory.EntityType>(); // Definitely OVERKILL.
+    	Hashtable<String, String> extra = new Hashtable<String, String>();
     	int yOffset = 0;
     	
     	for (int i = 0; i < mapAndLegend.length; i++){
@@ -93,10 +66,13 @@ public class GameWorld implements Scene {
     			if (mapAndLegend[i].length() > 2 && mapAndLegend[i].charAt(1) == ' '){
     				String key = mapAndLegend[i].substring(0, 1);
     				String rest = mapAndLegend[i].substring(2);
-    				if (rest.indexOf(" ") == -1)
+    				if (rest.indexOf(" ") == -1){
 						legend.put(key, EntityFactory.EntityType.valueOf(rest));
+    					extra.put(key,  "");
+    				}
     				else{
     					legend.put(key, EntityFactory.EntityType.valueOf(rest.substring(0, rest.indexOf(" "))));
+    					extra.put(key, rest.substring(rest.indexOf(" ")+1));
     				}
     			} else{
     				yOffset = i+1;
@@ -105,10 +81,11 @@ public class GameWorld implements Scene {
     		} else {
     			for (int j = 0; j < mapAndLegend[i].length(); j++){
     				EntityFactory.EntityType type = legend.get(mapAndLegend[i].substring(j,j+1));
+    				String extraValue = extra.get(mapAndLegend[i].substring(j, j+1));
     				if (type != null){
-    					Entity e = factory.getEntity(type);
+    					Entity e = factory.getEntity(type, extraValue);
     					// Hard coded for now; Please fix.
-    					e.moveTo(j*32, (i-yOffset)*20);
+    					e.moveTo(j*32, (i-yOffset)*32);
     					entities.add(e);
     					
     				}
@@ -189,25 +166,4 @@ public class GameWorld implements Scene {
         return entities;
     }
     
-    public void placeEnemies() {
-    	int i = 0;
-    	for (Entity e : entities) {
-    		if(e.getBehavior() instanceof EnemyBehavior) {
-    			e.moveTo(EnemyPosition[i], EnemyPosition[i+1]);
-    			i+=2;
-    		}
-    	}
-    }
-    
-    public void placeFood() {
-    	int i = 0;
-    	for (Entity e : entities) {
-    		if(e.getBehavior() instanceof FoodBehavior) {
-    			e.moveTo(FoodPosition[i], FoodPosition[i+1]);
-    			FoodBehavior foodBehavior = (FoodBehavior)e.getBehavior();
-    			foodBehavior.setFoodType(FoodType[i/2]);
-    			i+=2;
-    		}
-    	}
-    }
 }
