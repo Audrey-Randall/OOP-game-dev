@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game.component.behavior.*;
+import game.component.behavior.FoodBehavior.foodType;
 import game.component.collider.*;
 import game.component.sprite.*;
 import main.Tilemap;
@@ -26,8 +27,12 @@ public class EntityFactory {
     public EntityFactory(GameWorld w) {
         world = w;
     }
+    
+    public Entity getEntity(EntityType type){
+    	return getEntity(type, "");
+    }
 
-    public Entity getEntity(EntityType type) {
+    public Entity getEntity(EntityType type, String optionalValue) {
     	
         switch (type) {
             case PLAYER:
@@ -70,13 +75,25 @@ public class EntityFactory {
             			);
             	return hat;
             case FOOD:
+            	FoodBehavior fBehavior = new FoodBehavior();
             	Entity food = new Entity(
             			new StaticSprite(TextureMap.get("entity_food"),2,1,0),
-            			new FoodBehavior(),
+            			fBehavior,
             			new BoxCollider(),
             			world
             			);
+            	try {
+            		fBehavior.setFoodType(FoodBehavior.foodType.valueOf("CHEESE"));
+            	} catch (Exception ex) {
+            		System.out.println(optionalValue + " is not part of foodType!");
+            	}
+            	
             	return food;
+            /*
+            case COSMETIC:
+            	
+            */
+            	
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
         }
