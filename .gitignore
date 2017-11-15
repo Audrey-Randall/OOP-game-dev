@@ -3,4 +3,4 @@ out/
 .idea/
 *.iml
 /bin/
-.settings/*
+.settings/
