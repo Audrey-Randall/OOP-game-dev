@@ -238,11 +238,11 @@ public class PlayerBehavior extends Behavior {
 	    	printCounter = 0;
     	}
     	
-    	 if (Input.isKeyNew(Input.Key.DOWN)) {
+    	 if (Input.getInstance().isKeyNew(Input.Key.DOWN)) {
     		 switchCharacter();
     	 }
     	
-    	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
+    	 if (Input.getInstance().isKeyNew(Input.Key.BACKSPACE)) {
     		 if (!getIsCharacterDead(currentCharacter.index))
     			 performSpecialBehavior();
     		 else {
@@ -251,7 +251,7 @@ public class PlayerBehavior extends Behavior {
          	}
     	 }
     	 
-        if (Input.isKeyDown(Input.Key.RIGHT)) {
+        if (Input.getInstance().isKeyDown(Input.Key.RIGHT)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = true; 
         		isMoving = true; 
@@ -265,7 +265,7 @@ public class PlayerBehavior extends Behavior {
         		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         } 
-        else if (Input.isKeyDown(Input.Key.LEFT)) {
+        else if (Input.getInstance().isKeyDown(Input.Key.LEFT)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = false; 
         		isMoving = true; 
@@ -298,7 +298,7 @@ public class PlayerBehavior extends Behavior {
                 }
 
         velY += GRAVITY; // gravity
-        if (jumpsLeft > 0 && Input.isKeyNew(Input.Key.UP)) {
+        if (jumpsLeft > 0 && Input.getInstance().isKeyNew(Input.Key.UP)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
 	            velY = -JUMP_HEIGHT;
 	            jumpsLeft--;

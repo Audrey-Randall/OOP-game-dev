@@ -30,7 +30,6 @@ public class Main {
         //glEnable(GL_CULL_FACE);
 
         loadResources();
-        Input.createKeyCallback();
 
         Window.addScene(GameWorld.getInstance());
         Window.loop();

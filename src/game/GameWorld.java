@@ -83,7 +83,7 @@ public class GameWorld implements Scene {
     
     @Override
     public void update(double time, double delta) {
-        if (Input.isKeyNew(Input.Key.ESC))
+        if (Input.getInstance().isKeyNew(Input.Key.ESC))
             gamePaused = !gamePaused;
 
         if (gamePaused) {
