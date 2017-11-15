@@ -1,4 +1,6 @@
-tileset				tileset
+tileset		tileset
+
+scanlines	post_scanlines
 font/misterpixel/misterpixel	font_1
 
 rat		entity_rat

@@ -110,7 +110,7 @@ public class GameWorld implements Scene {
         float translateTo = (float)-player.posX()+320-(float)player.width()/2;
         if (translateTo > 0) translateTo = 0;
         // else if (translateTo < ???) translateTo = ???;
-        view.translate(translateTo, 0);
+        view.translate((int)translateTo, 0);
 
         ShaderMap.use("spritesheet");
         view.bind();
@@ -127,10 +127,10 @@ public class GameWorld implements Scene {
     }
 
     @Override
-    public void framebufferResized(int w, int h) {
-        double aspectRatio = w/(double)h;
-        int right = (int)(480*aspectRatio);
-        projection.setOrthographic(0,0,right,480,-1,1);
+    public void framebufferResized(int width, int height) {
+        double aspectRatio = width/(double)height;
+        int w = (int)(480*aspectRatio);
+        projection.setOrthographic(0,0,w,480,-1,1);
 
         ShaderMap.use("spritesheet");
         projection.bind();

@@ -1,6 +1,7 @@
 package main;
 
 import game.GameWorld;
+import game.component.Postprocess;
 import mote4.scenegraph.Window;
 import mote4.util.ErrorUtils;
 import mote4.util.shader.ShaderUtils;
@@ -31,7 +32,10 @@ public class Main {
 
         loadResources();
 
-        Window.addScene(GameWorld.getInstance());
+        FixedResolutionLayer l = new FixedResolutionLayer();
+        l.addScene(GameWorld.getInstance());
+        Window.addLayer(l);
+        Window.addScene(new Postprocess());
         Window.loop();
     }
 
@@ -47,6 +51,7 @@ public class Main {
                 2,new float[] {0,0, 0,1, 1,0, 1,1},
                 0,null,null);
         MeshMap.add(quad, "quad");
+        MeshMap.add(StaticMeshBuilder.loadQuadMesh(), "normal_quad");
 
         ErrorUtils.checkGLError();
     }
