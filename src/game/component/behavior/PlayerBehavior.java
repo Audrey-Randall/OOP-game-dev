@@ -2,12 +2,9 @@ package game.component.behavior;
 
 import game.Entity;
 import game.component.collider.TilemapCollider;
-import game.component.sprite.AnimatedSprite;
 import game.component.sprite.PlayerSprite;
-import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
-import mote4.util.texture.TextureMap;
 
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
@@ -149,9 +146,9 @@ public class PlayerBehavior extends Behavior {
     	PossumBehavior possumB = new PossumBehavior();    	
     	RatBehavior ratB = new RatBehavior();
     	
-        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoonB.claw(); } };
-        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possumB.playDead(); } };
-        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { ratB.scurry(); } };
+        behaviorList[character.RACCOON.index] = () -> raccoonB.claw();
+        behaviorList[character.OPOSSUM.index] = () -> possumB.playDead();
+        behaviorList[character.RAT.index] = () -> ratB.scurry();
         
         setIsCharacterDead(character.RACCOON.index, false);
         setIsCharacterDead(character.RAT.index, false);
