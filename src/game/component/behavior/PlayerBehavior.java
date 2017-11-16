@@ -1,13 +1,13 @@
 package game.component.behavior;
 
 import game.Entity;
+import game.EntityFactory;
+import game.EntityFactory.EntityType;
+import game.GameWorld;
 import game.component.collider.TilemapCollider;
-import game.component.sprite.AnimatedSprite;
 import game.component.sprite.PlayerSprite;
-import game.component.sprite.StaticSprite;
 import main.Input;
 import mote4.scenegraph.Window;
-import mote4.util.texture.TextureMap;
 
 public class PlayerBehavior extends Behavior {
 	double printCounter = 0;
@@ -16,6 +16,7 @@ public class PlayerBehavior extends Behavior {
     private boolean isMoving = false; 
     private boolean isFalling = false; 
     private int jumpsLeft = 0;
+    private Entity hat;
     double GRAVITY = .65;
     float RACCOON_SPEED = (float)1.1;
     float RAT_SPEED = (float)1.5;
@@ -141,6 +142,8 @@ public class PlayerBehavior extends Behavior {
     	opossum.setSpeed(OPOSSUM_SPEED);
     	rat.setSpeed(RAT_SPEED);
     	
+    	hat = null;
+    	
     	characterStats[character.RACCOON.index] = raccoon;
     	characterStats[character.OPOSSUM.index] = opossum;
     	characterStats[character.RAT.index] = rat;
@@ -149,9 +152,9 @@ public class PlayerBehavior extends Behavior {
     	PossumBehavior possumB = new PossumBehavior();    	
     	RatBehavior ratB = new RatBehavior();
     	
-        behaviorList[character.RACCOON.index] = new SpecialBehaviors() { public void behavior() { raccoonB.claw(); } };
-        behaviorList[character.OPOSSUM.index] = new SpecialBehaviors() { public void behavior() { possumB.playDead(); } };
-        behaviorList[character.RAT.index] = new SpecialBehaviors() { public void behavior() { ratB.scurry(); } };
+        behaviorList[character.RACCOON.index] = () -> raccoonB.claw();
+        behaviorList[character.OPOSSUM.index] = () -> possumB.playDead();
+        behaviorList[character.RAT.index] = () -> ratB.scurry();
         
         setIsCharacterDead(character.RACCOON.index, false);
         setIsCharacterDead(character.RAT.index, false);
@@ -222,6 +225,9 @@ public class PlayerBehavior extends Behavior {
     
     @Override
     public void act() {
+    	if (hat == null){
+    		hat = new EntityFactory(entity.getGameWorld()).getEntity(EntityType.HAT);
+    	}
     	if(isDead[0] == true && isDead[1] ==  true && isDead[2] == true)
     		Window.destroy();
     	
@@ -241,11 +247,11 @@ public class PlayerBehavior extends Behavior {
 	    	printCounter = 0;
     	}
     	
-    	 if (Input.isKeyNew(Input.Key.DOWN)) {
+    	 if (Input.getInstance().isKeyNew(Input.Key.DOWN)) {
     		 switchCharacter();
     	 }
     	
-    	 if (Input.isKeyNew(Input.Key.BACKSPACE)) {
+    	 if (Input.getInstance().isKeyNew(Input.Key.BACKSPACE)) {
     		 if (!getIsCharacterDead(currentCharacter.index))
     			 performSpecialBehavior();
     		 else {
@@ -254,7 +260,7 @@ public class PlayerBehavior extends Behavior {
          	}
     	 }
     	 
-        if (Input.isKeyDown(Input.Key.RIGHT)) {
+        if (Input.getInstance().isKeyDown(Input.Key.RIGHT)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = true; 
         		isMoving = true; 
@@ -268,7 +274,7 @@ public class PlayerBehavior extends Behavior {
         		System.out.printf(" dead. WaitTime: %.2f%n", 10 - (float)(characterStats[currentCharacter.index].getTimer()) );
         	}
         } 
-        else if (Input.isKeyDown(Input.Key.LEFT)) {
+        else if (Input.getInstance().isKeyDown(Input.Key.LEFT)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
         		facingRight = false; 
         		isMoving = true; 
@@ -301,7 +307,7 @@ public class PlayerBehavior extends Behavior {
                 }
 
         velY += GRAVITY; // gravity
-        if (jumpsLeft > 0 && Input.isKeyNew(Input.Key.UP)) {
+        if (jumpsLeft > 0 && Input.getInstance().isKeyNew(Input.Key.UP)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
 	            velY = -JUMP_HEIGHT;
 	            jumpsLeft--;
@@ -326,6 +332,7 @@ public class PlayerBehavior extends Behavior {
                     while (entity.getCollider().collidesWith(e.getCollider()));
                     velY = 0;
                 }
+        hat.getBehavior().act();
     }
     
     public void printStats() {
@@ -345,6 +352,12 @@ public class PlayerBehavior extends Behavior {
 
     @Override
     public void onCollide(Entity e) {
-
+    	if (e.getBehavior().getClass().getSimpleName().equals("CosmeticBehavior")){
+    		
+    	}
+    }
+    
+    public Entity getHat(){
+    	return hat;
     }
 }

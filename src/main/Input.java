@@ -12,7 +12,14 @@ import static org.lwjgl.glfw.GLFW.*;
  * @author Peter
  */
 public class Input {
-    
+
+    private static Input input;
+    public static Input getInstance() {
+        if (input == null)
+            input = new Input();
+        return input;
+    }
+
     public enum Key {
         YES(0),
         NO(1),
@@ -31,24 +38,25 @@ public class Input {
         }
     }
     
-    private static boolean[] isNew, isDown;
-    
-    static {
+    private boolean[] isNew, isDown;
+
+    private Input() {
+        createKeyCallback();
         isNew  = new boolean[Key.values().length];
         isDown = new boolean[Key.values().length];
     }
 
-    public static boolean isKeyDown(Key k) {
+    public boolean isKeyDown(Key k) {
         return isDown[k.index];
     }
 
-    public static boolean isKeyNew(Key k) {
+    public boolean isKeyNew(Key k) {
         boolean b =  isNew[k.index];
         isNew[k.index] = false; // TODO this may be unnecessary since isNew ignores GLFW_REPEAT
         return b;
     }
 
-    public static void clearKeys() {
+    public void clearKeys() {
         Arrays.fill(isNew, false);
         Arrays.fill(isDown, false);
     }
@@ -56,7 +64,7 @@ public class Input {
     /**
      * Override the default key callback created by the engine.
      */
-    public static void createKeyCallback() {
+    private void createKeyCallback() {
         glfwSetKeyCallback(Window.getWindowID(), (long window, int key, int scancode, int action, int mods) -> {
             // action is GLFW_PRESS, GLFW_REPEAT, or GLFW_RELEASE
             switch (key) {
@@ -97,7 +105,7 @@ public class Input {
             }
         });
     }
-    private static void callbackAction(int action, Key key) {
+    private void callbackAction(int action, Key key) {
         isNew[key.index] = (action == GLFW_PRESS);
         isDown[key.index] = (action != GLFW_RELEASE);
     }

@@ -26,20 +26,20 @@ public class MenuHandler {
     }
 
     public void update() {
-        if (Input.isKeyNew(Input.Key.YES))
+        if (Input.getInstance().isKeyNew(Input.Key.YES))
         {
             behaviors.peek().onAction();
         }
-        else if (Input.isKeyNew(Input.Key.NO))
+        else if (Input.getInstance().isKeyNew(Input.Key.NO))
         {
             closeMenu();
         }
-        else if (Input.isKeyNew(Input.Key.UP))
+        else if (Input.getInstance().isKeyNew(Input.Key.UP))
         {
             // cursor up
             behaviors.peek().moveCursor(-1);
         }
-        else if (Input.isKeyNew(Input.Key.DOWN))
+        else if (Input.getInstance().isKeyNew(Input.Key.DOWN))
         {
             // cursor down
             behaviors.peek().moveCursor(1);
