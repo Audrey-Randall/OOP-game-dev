@@ -11,6 +11,7 @@ import mote4.util.vertex.builder.StaticMeshBuilder;
 import mote4.util.vertex.mesh.Mesh;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
 
 public class GameHUD {
 
@@ -29,36 +30,47 @@ public class GameHUD {
     public void render() {
         ShaderMap.use("spritesheet");
         Uniform.vec("spriteInfo",1,1,0);
-        TextureMap.bind("font_1");
+        float SCALE = 32;
 
         PlayerBehavior b = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
         double[] playerInfo = b.getPlayerInfo();
         if (text != null)
             text.destroy();
         text = FontUtils.createString(
-                "Rat: "+playerInfo[0]+
-                "\nRaccoon: "+playerInfo[1]+
-                "\nPossum: "+playerInfo[2]+
-                "\nScore: "+playerInfo[3],0,0,32,32);
+                "Rat: "+
+                "\nRaccoon: "+
+                "\nPossum: "+
+                "\nScore: "+playerInfo[3],0,0,SCALE,SCALE);
         for (Mesh m : healthBars)
             if (m != null)
                 m.destroy();
-        healthBars[0] = createHealthBar(playerInfo[0]);
-        healthBars[1] = createHealthBar(playerInfo[1]);
-        healthBars[2] = createHealthBar(playerInfo[2]);
+        healthBars[0] = createHealthBar(playerInfo[0],SCALE-4);
+        healthBars[1] = createHealthBar(playerInfo[1],SCALE-4);
+        healthBars[2] = createHealthBar(playerInfo[2],SCALE-4);
 
         model.push();
         {
-            //model.translate(0, 32 * (1 + index));
+            model.translate(4,2);
             model.bind();
+            TextureMap.bind("font_1");
             text.render();
+
+            model.translate(128,0);
+            model.bind();
+            TextureMap.bind("healthbar");
+            for (Mesh m : healthBars) {
+                m.render();
+                model.translate(0,SCALE);
+                model.bind();
+            }
         }
         model.pop();
     }
-    private Mesh createHealthBar(double health) {
-        return StaticMeshBuilder.constructVAO(GL_TRIANGLE_FAN,
-                2, new float[] {},
-                2, new float[] {},
+    private Mesh createHealthBar(double health, float scale) {
+        float h = (float)health;
+        return StaticMeshBuilder.constructVAO(GL_TRIANGLE_STRIP,
+                2, new float[] {0,0, h*scale,0, 0,scale, h*scale,scale},
+                2, new float[] {0,0, h,0, 0,1, h,1},
                 0, null, null);
     }
 

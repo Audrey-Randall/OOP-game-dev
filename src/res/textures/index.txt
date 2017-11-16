@@ -1,4 +1,5 @@
 tileset		tileset
+heart		healthbar
 
 scanlines	post_scanlines
 font/misterpixel/misterpixel	font_1
