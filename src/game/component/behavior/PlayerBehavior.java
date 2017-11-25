@@ -353,7 +353,8 @@ public class PlayerBehavior extends Behavior {
     @Override
     public void onCollide(Entity e) {
     	if (e.getBehavior().getClass().getSimpleName().equals("CosmeticBehavior")){
-    		
+    		CosmeticBehavior c = (CosmeticBehavior)(e.getBehavior());
+    		((HatBehavior)(hat.getBehavior())).addHat(e.getSprite(), c.getSpriteName());
     	}
     }
     

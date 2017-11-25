@@ -7,15 +7,19 @@ import game.Entity;
 import game.GameWorld;
 import game.component.sprite.EmptySprite;
 import game.component.sprite.Sprite;
+import game.component.sprite.AnimatedSprite;
+import game.component.sprite.StaticSprite;
 import main.Input;
 
 public class HatBehavior extends Behavior {
 	private ArrayList<Sprite> hats;
+	private ArrayList<String> names;
 	private int currentHat;
 	private boolean changeSprite;
 	public HatBehavior(){
 		super();
 		hats = new ArrayList<Sprite>();
+		names = new ArrayList<String>();
 		currentHat = 0;
 		changeSprite = true;
 	}
@@ -50,9 +54,18 @@ public class HatBehavior extends Behavior {
     	
     }
     
-    public void addHat(Sprite hat){
-    	if (hats.contains(hat)) return;
+    private boolean checkHat(String name){
+    	for (int i = 0; i < names.size(); i++){
+    		if (names.get(i).equals(name)) return true;
+    	}
+    	return false;
+    }
+    
+    public void addHat(Sprite hat, String name){
+    	System.out.println(hat);
+    	if (checkHat(name)) return;
     	hats.add(hat);
+    	names.add(name);
     	currentHat = hats.size()-1;
     	changeSprite = true;
     }

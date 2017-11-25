@@ -9,7 +9,7 @@ possum		entity_possum
 raccoon		entity_raccoon
 
 TempHat		entity_chefhat
-SantaHat	entity_santahat
+hat_santa	entity_santahat
 
 coin		entity_coin
 enemy		entity_enemy

@@ -89,10 +89,15 @@ public class EntityFactory {
             	}
             	
             	return food;
-            /*
+            
             case COSMETIC:
-            	
-            */
+            	String sprite = CosmeticBehavior.chooseSpriteFile();
+            	return new Entity(
+            			new StaticSprite(TextureMap.get(sprite),2,1,0),
+            			new CosmeticBehavior(sprite),
+            			new BoxCollider(),
+            			world
+            			);
             	
             default:
                 throw new IllegalArgumentException("Invalid entity type!");
