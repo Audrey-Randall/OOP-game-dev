@@ -1,6 +1,7 @@
 package main;
 
 import game.GameWorld;
+import game.ScrollingBackground;
 import game.component.Postprocess;
 import mote4.scenegraph.Window;
 import mote4.util.ErrorUtils;
@@ -33,6 +34,7 @@ public class Main {
         loadResources();
 
         FixedResolutionLayer l = new FixedResolutionLayer();
+        l.addScene(new ScrollingBackground());
         l.addScene(GameWorld.getInstance());
         Window.addLayer(l);
         Window.addScene(new Postprocess());
@@ -52,6 +54,7 @@ public class Main {
                 0,null,null);
         MeshMap.add(quad, "quad");
         MeshMap.add(StaticMeshBuilder.loadQuadMesh(), "normal_quad");
+        MeshMap.add(StaticMeshBuilder.constructVAOFromOBJ("openCylinder",true), "background");
 
         ErrorUtils.checkGLError();
     }

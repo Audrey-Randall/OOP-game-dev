@@ -28,14 +28,16 @@ public class TilemapSprite extends Sprite {
         texture.bind();
         for (int x = 0; x < tilemap.tiles.length; x++)
             for (int y = 0; y < tilemap.tiles[0].length; y++) {
-                model.push();
-                {
-                    Uniform.vec("spriteInfo",8f,8f,(float)tilemap.tiles[x][y]);
-                    model.translate(x, y);
-                    model.bind();
-                    MeshMap.render("quad");
-                }
-                model.pop();
+            if (tilemap.tiles[x][y] == 0)
+                continue; // TODO remove this
+            model.push();
+            {
+                Uniform.vec("spriteInfo",8f,8f,(float)tilemap.tiles[x][y]);
+                model.translate(x, y);
+                model.bind();
+                MeshMap.render("quad");
+            }
+            model.pop();
             }
 
     }

@@ -30,7 +30,7 @@ public class GameHUD {
     public void render() {
         ShaderMap.use("spritesheet");
         Uniform.vec("spriteInfo",1,1,0);
-        float SCALE = 32;
+        final float SCALE = 16;
 
         PlayerBehavior b = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
         double[] playerInfo = b.getPlayerInfo();
@@ -44,9 +44,9 @@ public class GameHUD {
         for (Mesh m : healthBars)
             if (m != null)
                 m.destroy();
-        healthBars[0] = createHealthBar(playerInfo[0],SCALE-4);
-        healthBars[1] = createHealthBar(playerInfo[1],SCALE-4);
-        healthBars[2] = createHealthBar(playerInfo[2],SCALE-4);
+        healthBars[0] = createHealthBar(playerInfo[0],SCALE);
+        healthBars[1] = createHealthBar(playerInfo[1],SCALE);
+        healthBars[2] = createHealthBar(playerInfo[2],SCALE);
 
         model.push();
         {
@@ -60,7 +60,7 @@ public class GameHUD {
             TextureMap.bind("healthbar");
             for (Mesh m : healthBars) {
                 m.render();
-                model.translate(0,SCALE);
+                model.translate(0,SCALE+4);
                 model.bind();
             }
         }

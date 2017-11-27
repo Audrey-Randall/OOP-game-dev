@@ -54,7 +54,7 @@ public class GameWorld implements Scene {
         createGameWorld(file.split("\n"), factory);
     }
     
-    private void createGameWorld(String[] mapAndLegend, EntityFactory factory){
+    private void createGameWorld(String[] mapAndLegend, EntityFactory factory) {
     	boolean getFullLegend = true;
     	Hashtable<String, EntityFactory.EntityType> legend = 
     			new Hashtable<String, EntityFactory.EntityType>(); // Definitely OVERKILL.
@@ -127,11 +127,8 @@ public class GameWorld implements Scene {
 
     @Override
     public void render(double time, double delta) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        float translateTo = (float)-player.posX()+320-(float)player.width()/2;
-        if (translateTo > 0) translateTo = 0;
-        // else if (translateTo < ???) translateTo = ???;
-        view.translate((int)translateTo, 0);
+        //glClear(GL_COLOR_BUFFER_BIT);
+        view.translate((int)getScrollPos(), 0);
 
         ShaderMap.use("spritesheet");
         view.bind();
@@ -164,6 +161,13 @@ public class GameWorld implements Scene {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    public float getScrollPos() {
+        float translateTo = (float)-player.posX()+320-(float)player.width()/2;
+        if (translateTo > 0) translateTo = 0;
+        // else if (translateTo < ???) translateTo = ???;
+        return translateTo;
     }
     
 }

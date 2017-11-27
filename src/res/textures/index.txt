@@ -1,4 +1,5 @@
 tileset		tileset
+background	background
 heart		healthbar
 
 scanlines	post_scanlines
