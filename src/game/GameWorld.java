@@ -29,7 +29,7 @@ public class GameWorld implements Scene {
     private GameHUD gameHUD;
     private Entity player;
     private ArrayList<Level> l;
-    private int maxLength;
+    private int maxLength, screenWidth;
 
     
     public void setPlayer(Entity e) { player = e; }
@@ -114,6 +114,7 @@ public class GameWorld implements Scene {
 
     @Override
     public void framebufferResized(int width, int height) {
+        screenWidth = width;
         double aspectRatio = width/(double)height;
         int w = (int)(480*aspectRatio);
         projection.setOrthographic(0,0,w,480,-1,1);
@@ -133,9 +134,9 @@ public class GameWorld implements Scene {
 
     public float getScrollPos() {
     	if (player == null) return 0;
-        float translateTo = (float)-player.posX()+320-(float)player.width()/2;
+        float translateTo = (float)-player.posX()+screenWidth/2-(float)player.width()/2;
         if (translateTo > 0) translateTo = 0;
-        else if (translateTo < -maxLength+640) translateTo = -maxLength+640;
+        else if (translateTo < -maxLength+screenWidth) translateTo = -maxLength+screenWidth;
         return translateTo;
     }
     

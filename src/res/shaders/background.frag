@@ -7,13 +7,16 @@ in vec3 vertexPos;
 out vec4 FragColor;
 
 uniform sampler2D texture1;
-uniform vec4 colorMult = vec4(1.0);
-uniform vec3 colorAdd = vec3(0.0);
 
 uniform vec2 pos = vec2(0.0);
+uniform float aspectRatio = 1.0;
 
 void main()
 {
-	// colorMult takes precedence over colorAdd
-	FragColor = colorMult * (vec4(colorAdd,0) + texture(texture1, vertexPos.xy+pos));
+	vec2 coord = vertexPos.yx/2+.5; // convert to 0-1 space
+	coord = 1-coord; // put it right side up
+	coord.x *= 1.3 * aspectRatio; // scale x coordinate to map properly
+	coord -= pos; // offset to make the background move
+
+	FragColor = texture(texture1, coord);
 }

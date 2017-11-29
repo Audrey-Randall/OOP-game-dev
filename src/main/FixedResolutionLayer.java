@@ -13,10 +13,11 @@ public class FixedResolutionLayer extends Layer {
 
     @Override
     public void framebufferResized(int width, int height) {
-        super.framebufferResized(width,height);
 
         double aspectRatio = width/(double)height;
         int w = (int)(480*aspectRatio);
+
+        super.framebufferResized(w,480);
 
         if (sceneFBO != null)
             sceneFBO.destroy();

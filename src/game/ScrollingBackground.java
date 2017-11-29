@@ -23,10 +23,10 @@ public class ScrollingBackground implements Scene {
     @Override
     public void render(double time, double delta) {
         ShaderMap.use("background");
-        TextureMap.bind("tileset"); // "background"
+        TextureMap.bind("background"); // "background"
         float[] playerPos = new float[] {
+                ((int)GameWorld.getInstance().getScrollPos())/1000f,
                 0,//(float)GameWorld.getInstance().getPlayer().posY()/-10000f,
-                GameWorld.getInstance().getScrollPos()/1000f
         };
         Uniform.vec("pos",playerPos);
         MeshMap.render("background");
@@ -37,9 +37,11 @@ public class ScrollingBackground implements Scene {
         trans.projection.setPerspective(1,1, .1f, 100f, 65f);
         trans.view.setIdentity();
         trans.view.rotate((float)Math.PI/2, 0,0,1);
-        trans.view.translate(0,0,-.5f);
+        trans.view.translate(0,0,-1f);
+        trans.view.scale(1,1.3f,1);
 
         ShaderMap.use("background");
+        Uniform.vec("aspectRatio", (float)w/h);
         trans.bind();
     }
 

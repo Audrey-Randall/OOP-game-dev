@@ -45,6 +45,10 @@ public class Entity {
         posX += x;
         posY += y;
     }
+    public void setSize(double w, double h) {
+        width = Math.max(0,w);
+        height = Math.max(0,h);
+    }
 
     public Sprite getSprite() {
         return sprite;

@@ -39,11 +39,12 @@ public class BoxCollider extends Collider {
             int posY = (int)((entity.posY()-1)/t.tilemap.TILE_SIZE);
             int posX2 = (int)(((entity.posX()+entity.width()-1))/t.tilemap.TILE_SIZE);
             int posY2 = (int)((entity.posY()+entity.height())/t.tilemap.TILE_SIZE);
-            if (posX < 0 || posY < 0 || posX2 >= t.tilemap.tiles.length)
+            if (posX < 0 || posY < 0 || posX2 >= t.tilemap.TILES.length)
             	return true;
-            for (int i = posX; i <= posX2 && i < t.tilemap.tiles.length; i++){
-            	for (int j = posY; j <= posY2 && j < t.tilemap.tiles[0].length; j++){
-            		if (t.tilemap.tiles[i][j] == 1) return true;
+            for (int i = posX; i <= posX2 && i < t.tilemap.TILES.length; i++){
+            	for (int j = posY; j <= posY2 && j < t.tilemap.TILES[0].length; j++){
+            		if (t.tilemap.TILES[i][j] == 1 || t.tilemap.TILES[i][j] >= 19)
+            		    return true;
             	}
             }
             return false;

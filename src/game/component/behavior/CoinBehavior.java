@@ -2,11 +2,14 @@ package game.component.behavior;
 
 import game.Entity;
 import game.GameWorld;
-import mote4.scenegraph.Window;
 
 public class CoinBehavior extends Behavior {
 	
-
+    @Override
+    public void setEntity(Entity e) {
+        super.setEntity(e);
+        entity.setSize(32,32);
+    }
 	
     @Override    
     public void act() {

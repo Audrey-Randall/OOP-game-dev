@@ -46,7 +46,7 @@ public class EntityFactory {
                 return e;
             case COIN:
                 return new Entity(
-                		new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
+					new AnimatedSprite(TextureMap.get("entity_coin"),16,2,21,3),
                     new CoinBehavior(),
                     new BoxCollider(),
                     world);

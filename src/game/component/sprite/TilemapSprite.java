@@ -1,7 +1,6 @@
 package game.component.sprite;
 
 import main.Tilemap;
-import mote4.util.FileIO;
 import mote4.util.matrix.ModelMatrix;
 import mote4.util.shader.ShaderMap;
 import mote4.util.shader.Uniform;
@@ -26,19 +25,17 @@ public class TilemapSprite extends Sprite {
     public void render() {
         ShaderMap.use("spritesheet");
         texture.bind();
-        for (int x = 0; x < tilemap.tiles.length; x++)
-            for (int y = 0; y < tilemap.tiles[0].length; y++) {
-            if (tilemap.tiles[x][y] == 0)
-                continue; // TODO remove this
+        for (int x = 0; x < tilemap.TILES.length; x++)
+            for (int y = 0; y < tilemap.TILES[0].length; y++) {
             model.push();
             {
-                Uniform.vec("spriteInfo",8f,8f,(float)tilemap.tiles[x][y]);
+                Uniform.vec("spriteInfo",8f,8f,(float)tilemap.TILES[x][y]);
                 model.translate(x, y);
                 model.bind();
                 MeshMap.render("quad");
             }
             model.pop();
-            }
+        }
 
     }
 }

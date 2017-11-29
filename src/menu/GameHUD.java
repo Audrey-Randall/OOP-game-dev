@@ -55,7 +55,7 @@ public class GameHUD {
             TextureMap.bind("font_1");
             text.render();
 
-            model.translate(128,0);
+            model.translate(90,0);
             model.bind();
             TextureMap.bind("healthbar");
             for (Mesh m : healthBars) {
