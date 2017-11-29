@@ -169,6 +169,7 @@ public class PlayerBehavior extends Behavior {
     class RatBehavior {
     	void scurry() {
     		System.out.println("Rat Special Behavior");
+    		
     	}
     }
     

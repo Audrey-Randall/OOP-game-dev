@@ -42,7 +42,7 @@ public class EntityFactory {
                     new PlayerBehavior(),
                     new BoxCollider(),
                     world);
-                world.setPlayer(e);
+                //world.setPlayer(e);
                 return e;
             case COIN:
                 return new Entity(
