@@ -18,14 +18,12 @@ public class CoinBehavior extends Behavior {
 
     @Override
     public void onCollide(Entity e) {
-        entity.kill();
         //entity.moveTo(Math.random()*(640*3-64), Math.random()*(480-64));
         if (e.getBehavior() instanceof PlayerBehavior) {
         	//if (Window.time() > 3) {
-	            PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
-	        	playerBehavior.adjustScore(1);
-	        	//playerBehavior.printStats();
-        	//}
+            entity.kill();
+            PlayerBehavior playerBehavior = (PlayerBehavior)GameWorld.getInstance().getPlayer().getBehavior();
+            playerBehavior.adjustScore(1);
         }
     }
 }

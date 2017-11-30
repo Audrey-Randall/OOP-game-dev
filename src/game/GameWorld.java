@@ -10,13 +10,7 @@ import mote4.util.matrix.ViewMatrix;
 import mote4.util.shader.ShaderMap;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
-
-import javax.print.attribute.standard.PrinterLocation;
-
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
 
 public class GameWorld implements Scene {
 	
@@ -28,8 +22,8 @@ public class GameWorld implements Scene {
     private MenuHandler menuHandler;
     private GameHUD gameHUD;
     private Entity player;
-    private ArrayList<Level> l;
-    private int maxLength, screenWidth;
+    private ArrayList<Level> levels;
+    private int levelWidth, screenWidth;
 
     
     public void setPlayer(Entity e) { player = e; }
@@ -45,22 +39,22 @@ public class GameWorld implements Scene {
         gameHUD = new GameHUD();
 
         gamePaused = false;
-        
+
+        levels = new ArrayList<>();
         EntityFactory factory = new EntityFactory(this);
-        String[] levelOne = FileIO.getString("/res/files/level1Objects.txt").split("\n");
-        l = new ArrayList<Level>();
-        l.add(new Level(levelOne, factory));
-        loadLevel(0);
+        String[] levelNames = FileIO.getString("/res/files/index.txt").split("\n");
+        for (String s : levelNames)
+            levels.add(new Level(s, factory));
+
+        loadLevel(levels.get(0));
     }
     
-    public void loadLevel(int lev){
-    	if (lev < l.size()){
-    		Level level = l.get(lev);
-    		entities = level.getEntities();
-    		player = level.getPlayer();
-    		maxLength = level.getLevelLength();
-    	}
+    public void loadLevel(Level level) {
+        entities = level.getEntities();
+        player = level.getPlayer();
+        levelWidth = level.getLevelLength();
     }
+    public ArrayList<Level> getLevels() { return levels; }
 
     public static GameWorld getInstance() {
         if(instance == null) {
@@ -136,7 +130,7 @@ public class GameWorld implements Scene {
     	if (player == null) return 0;
         float translateTo = (float)-player.posX()+screenWidth/2-(float)player.width()/2;
         if (translateTo > 0) translateTo = 0;
-        else if (translateTo < -maxLength+screenWidth) translateTo = -maxLength+screenWidth;
+        else if (translateTo < -levelWidth +screenWidth) translateTo = -levelWidth +screenWidth;
         return translateTo;
     }
     

@@ -1,22 +1,33 @@
 package game;
 
+import mote4.scenegraph.Window;
+import mote4.util.FileIO;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Level {
-	private Hashtable<String, EntityFactory.EntityType> legend = 
-    			new Hashtable<String, EntityFactory.EntityType>();
-	private Hashtable<String, String> extra = new Hashtable<String, String>();
+	private Hashtable<String, EntityFactory.EntityType> legend = new Hashtable<>();
+	private Hashtable<String, String> extra = new Hashtable<>();
 	private ArrayList<Entity> entities;
 	private Entity player;
 	private int levelLength;
+	private String levelName;
 	
-	public Level(String[] mapAndLegend, EntityFactory factory){
-		entities = new ArrayList<Entity>();
-		int yOffset = findLegendAndMapGap(mapAndLegend);
-		createLegend(mapAndLegend, yOffset);
-		levelLength = mapAndLegend[yOffset].length()*32;
-		createEntities(mapAndLegend, yOffset, factory);
+	public Level(String filename, EntityFactory factory) {
+        levelName = filename;
+        String[] entityFile;
+        try {
+            entityFile = FileIO.getString("/res/files/" + filename + ".txt").split("\n");
+            entities = new ArrayList<>();
+            int yOffset = findLegendAndMapGap(entityFile);
+            createLegend(entityFile, yOffset);
+            levelLength = entityFile[yOffset].length()*32;
+            createEntities(entityFile, yOffset, factory);
+        } catch (NullPointerException e) {
+            System.err.println("Error reading level file: /res/files/" + filename + ".txt");
+            Window.destroy();
+        }
 	}
 	
 	public int findLegendAndMapGap(String[] mapAndLegend){
@@ -48,7 +59,7 @@ public class Level {
 	}
 	
 	public void createEntities(String[] mapAndLegend, int yOffset, EntityFactory factory){
-		entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP));
+		entities.add(factory.getEntity(EntityFactory.EntityType.TILEMAP, levelName +"_map"));
 		for (int i = yOffset; i < mapAndLegend.length; i++){
 			for (int j = 0; j < mapAndLegend[i].length(); j++){
 				EntityFactory.EntityType type = legend.get(mapAndLegend[i].substring(j,j+1));
@@ -78,4 +89,6 @@ public class Level {
 	public int getLevelLength(){
 		return levelLength;
 	}
+
+	public String getLevelName() { return levelName; }
 }

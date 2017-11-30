@@ -7,11 +7,13 @@ public class Tilemap {
     public final int[][] TILES;
     public final int TILE_SIZE = 32;
 
-    public Tilemap() {
-        String file = FileIO.getString("/res/files/level1.txt");
+    public Tilemap(String filename) {
+        String file = FileIO.getString("/res/files/"+filename+".txt");
         String[] map = file.split("\n");
 
-        int width = 60;
+        int width = map[0].length();
+        if (map.length != 15)
+            throw new IllegalArgumentException("Map files MUST have 15 rows.");
         int[][] rawTiles = new int[width][15];
         for (int x = 0; x < rawTiles.length; x++)
             for (int y = 0; y < rawTiles[0].length; y++)
