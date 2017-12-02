@@ -16,6 +16,8 @@ public class Level {
 	
 	public Level(String filename, EntityFactory factory) {
         levelName = filename;
+        String lastChar = filename.substring(filename.length()-1);
+        filename = lastChar.equals("\r") ? filename.substring(0, filename.length()-1) : filename;
         String[] entityFile;
         try {
             entityFile = FileIO.getString("/res/files/" + filename + ".txt").split("\n");
