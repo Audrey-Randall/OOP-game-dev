@@ -8,6 +8,7 @@ public class Tilemap {
     public final int TILE_SIZE = 32;
 
     public Tilemap(String filename) {
+		System.out.println("/res/files/"+filename+".txt");
         String file = FileIO.getString("/res/files/"+filename+".txt");
         String[] map = file.split("\n");
 

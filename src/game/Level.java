@@ -15,9 +15,9 @@ public class Level {
 	private String levelName;
 	
 	public Level(String filename, EntityFactory factory) {
-        levelName = filename;
         String lastChar = filename.substring(filename.length()-1);
         filename = lastChar.equals("\r") ? filename.substring(0, filename.length()-1) : filename;
+        levelName = filename;
         String[] entityFile;
         try {
             entityFile = FileIO.getString("/res/files/" + filename + ".txt").split("\n");
@@ -46,8 +46,11 @@ public class Level {
 		int i = 0;
 		for (; i < yOffset; i++){
 			if (mapAndLegend[i].length() > 2 && mapAndLegend[i].charAt(1) == ' '){
-				String key = mapAndLegend[i].substring(0, 1);
-				String rest = mapAndLegend[i].substring(2);
+				String pair = mapAndLegend[i];
+				String key = pair.substring(0, 1);
+				//Strip newline
+				String lastChar = pair.substring(pair.length()-1);
+				String rest = lastChar.equals("\r") ? pair.substring(2, pair.length()-1) : pair.substring(2);
 				if (rest.indexOf(" ") == -1){
 					legend.put(key, EntityFactory.EntityType.valueOf(rest));
 					extra.put(key,  "");
