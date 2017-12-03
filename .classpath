@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/guava-14.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
 	<classpathentry kind="lib" path="lib/mote4.jar"/>
+	<classpathentry kind="lib" path="lib/sqljdbc42.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

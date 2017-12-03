@@ -1,10 +1,7 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import game.component.behavior.*;
-import game.component.behavior.FoodBehavior.foodType;
 import game.component.collider.*;
 import game.component.sprite.*;
 import main.Tilemap;

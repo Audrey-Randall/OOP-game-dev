@@ -1,4 +1,3 @@
 spritesheet.vert	spritesheet.frag	spritesheet
 quad.vert		quad_post.frag		quad
 background.vert		background.frag		background
-

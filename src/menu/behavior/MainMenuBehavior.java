@@ -21,6 +21,7 @@ public class MainMenuBehavior extends MenuBehavior {
                 handler.openMenu(new OptionsMenuBehavior(handler));
                 break;
             case "Leaderboards":
+            	handler.openMenu(new LeaderboardBehavior(handler));
                 break;
             case "Quit":
                 Window.destroy();
