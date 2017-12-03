@@ -1,10 +1,7 @@
 package menu.behavior;
 
 import menu.MenuHandler;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import oracle.jdbc.driver.*;
+import java.sql.*;
 
 public class LeaderboardBehavior extends MenuBehavior {
 
@@ -22,10 +19,12 @@ public class LeaderboardBehavior extends MenuBehavior {
     private String[] getScores() {
     	try {
     		String host = "Server=localhost\\SQLEXPRESS;Database=master;Trusted_Connection=True;";
+    		String conUrl = "jdbc:sqlserver://localhost:60776; databaseName=players; user=sa; password=Password123;";
         	String username = "";
         	String password = "";
-    		Connection dbCon = DriverManager.getConnection( host, username, password );
+    		Connection dbCon = DriverManager.getConnection(conUrl);
     	} catch (SQLException e) {
+    		System.out.println("?!!");
     		System.out.println(e.getMessage());
     	}
     	return new String[] {"Testing | testing | testing", "abcdef | ghijkl | asdfsdf"};
