@@ -7,7 +7,12 @@ import java.util.List;
 public class BoxCollider extends Collider {
 
     public BoxCollider() {
-
+    }
+    
+    public BoxCollider(boolean sol, boolean brea){
+    	this();
+    	solid = sol;
+    	breakable = brea;
     }
 
     @Override
