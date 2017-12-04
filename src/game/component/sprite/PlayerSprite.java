@@ -15,6 +15,8 @@ public class PlayerSprite extends Sprite {
                 new AnimatedSprite(TextureMap.get("entity_possum"),  2,1,2,15),
                 new AnimatedSprite(TextureMap.get("entity_raccoon"),  2,1,2,15)
         };
+        SPRITES[0].setOffset(0, 14);
+        SPRITES[1].setOffset(0, 14);
         index = 0;
     }
 
@@ -27,10 +29,11 @@ public class PlayerSprite extends Sprite {
 
     @Override
     public void render() {
+    	PlayerBehavior behavior = (PlayerBehavior)(entity.getBehavior());
         SPRITES[index].render();
-        PlayerBehavior behavior = (PlayerBehavior)(entity.getBehavior());
         if (behavior.getHat() != null)
             behavior.getHat().getSprite().render();
+        
     }
 
     public void setSprite(PlayerBehavior.character c) {

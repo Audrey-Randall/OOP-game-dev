@@ -379,4 +379,8 @@ public class PlayerBehavior extends Behavior {
     public Entity getHat(){
     	return hat;
     }
+    
+    public boolean getFacingRight(){
+    	return facingRight;
+    }
 }
