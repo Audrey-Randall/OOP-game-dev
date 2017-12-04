@@ -19,7 +19,7 @@ public class EnemyBehavior extends Behavior {
 	    public int getIndex() { return index; }
 	}
 	
-	movementType moveBehavior = movementType.VERTICAL;
+	movementType moveBehavior = movementType.NONE;
 	
 	float PENALTY_SCALE_FACTOR = 1;
 	
