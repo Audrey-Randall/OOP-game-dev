@@ -11,6 +11,7 @@ public class TilemapCollider extends Collider {
 
     public TilemapCollider(Tilemap t) {
         tilemap = t;
+        solid = true;
     }
 
     @Override

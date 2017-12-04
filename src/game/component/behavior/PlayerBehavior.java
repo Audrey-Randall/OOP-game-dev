@@ -4,7 +4,9 @@ import game.Entity;
 import game.EntityFactory;
 import game.EntityFactory.EntityType;
 import game.GameWorld;
+import game.component.collider.BoxCollider;
 import game.component.collider.TilemapCollider;
+import game.component.sprite.EmptySprite;
 import game.component.sprite.PlayerSprite;
 import main.Input;
 import mote4.scenegraph.Window;
@@ -181,7 +183,22 @@ public class PlayerBehavior extends Behavior {
     
     class RaccoonBehavior {
     	void claw() {
+    		// TODO: FIX. PLEASE. THIS IS EXTREMELY HACK-Y RIGHT NOW. :|
     		System.out.println("Raccoon Special Behavior");
+    		Entity e = new Entity(new EmptySprite(), 
+    				new EmptyBehavior(), 
+    				new BoxCollider(), 
+    				entity.getGameWorld());
+    		e.setSize(10, 10);
+    		if (facingRight){
+    			e.moveTo(entity.posX()+entity.width(), entity.posY()+entity.height()/2-5);
+    		} else {
+    			e.moveTo(entity.posX()-10, entity.posY()+entity.height()/2-5);
+    		}
+    		for (Entity en : entity.getGameWorld().getEntities())
+    			if (en.getCollider().getBreakable() && e.getCollider().collidesWith(en.getCollider())){
+    				en.kill();
+    			}
     	}
     }
     
@@ -297,7 +314,7 @@ public class PlayerBehavior extends Behavior {
         entity.move(velX,0);
         // check collision in x direction
         for (Entity e : entity.getGameWorld().getEntities())
-            if (e.getCollider() instanceof TilemapCollider) // TODO replace with some sort of solidity check
+            if (e.getCollider().getSolid()) // TODO replace with some sort of solidity check
                 if (entity.getCollider().collidesWith(e.getCollider())) {
                     entity.moveTo((int)entity.posX(),entity.posY());
                     do {
@@ -322,7 +339,7 @@ public class PlayerBehavior extends Behavior {
         entity.move(0,velY);
         // check collision in y direction
         for (Entity e : entity.getGameWorld().getEntities())
-            if (e.getCollider() instanceof TilemapCollider)
+            if (e.getCollider().getSolid())
                 if (entity.getCollider().collidesWith(e.getCollider())) {
                     entity.moveTo(entity.posX(),(int)entity.posY());
                     if (velY > 0)
