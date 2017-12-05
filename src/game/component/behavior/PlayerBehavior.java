@@ -226,6 +226,7 @@ public class PlayerBehavior extends Behavior {
     
     public void adjustScore(int scoreIncrease) {
     	score += scoreIncrease;
+    	main.Database.getInstance().updateScore(score);
     }
     
 

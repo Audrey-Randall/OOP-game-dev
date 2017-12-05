@@ -70,6 +70,40 @@ public class Database {
 		}
 	}
 	
+	private float getHighScore() {
+		String sql = "SELECT HighScore FROM Scores WHERE Name = ?";
+		try (Connection conn = connect();
+        		PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, game.GameWorld.getInstance().getCurrentUser());
+			ResultSet rs = ps.executeQuery();
+			float hs = 0;
+			while(rs.next()) {
+				hs = rs.getInt(1);
+			}
+			return hs;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return -1;
+		}
+	}
+	
+	public void updateScore(float score) {
+		if (score <= getHighScore()) {
+			return;
+		}
+		String sql = "UPDATE Scores\r\n" + 
+				"SET HighScore = ?\r\n" + 
+				"WHERE Name = ?;";
+		try (Connection conn = connect();
+        		PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setFloat(1, score);
+        	ps.setString(2, game.GameWorld.getInstance().getCurrentUser());
+        	ps.executeUpdate();
+        } catch (SQLException e) {
+        	System.out.println(e.getMessage());
+        }
+	}
+	
 	public void addUser(String name) {
 		String sqlExists = "IF NOT EXISTS(SELECT * FROM Scores WHERE Name = ?)\r\n" + 
 				"INSERT INTO Scores (PlayerID,Name) VALUES(?, ?)";
@@ -79,6 +113,7 @@ public class Database {
         	ps.setInt(2, getNewId()+1);
         	ps.setString(3, name);
         	ps.executeUpdate();
+        	game.GameWorld.getInstance().setCurrentUsername(name);
         } catch (SQLException e) {
         	System.out.println(e.getMessage());
         }

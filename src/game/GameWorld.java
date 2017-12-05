@@ -24,6 +24,7 @@ public class GameWorld implements Scene {
     private Entity player;
     private ArrayList<Level> levels;
     private int levelWidth, screenWidth;
+    private String currentUsername;
 
     
     public void setPlayer(Entity e) { player = e; }
@@ -37,6 +38,7 @@ public class GameWorld implements Scene {
         entities = new ArrayList<>();
         menuHandler = new MenuHandler();
         gameHUD = new GameHUD();
+        currentUsername = "";
 
         gamePaused = false;
 
@@ -84,6 +86,14 @@ public class GameWorld implements Scene {
                 }
             }
         }
+    }
+    
+    public void setCurrentUsername(String name) {
+    	currentUsername = name;
+    }
+    
+    public String getCurrentUser() {
+    	return currentUsername;
     }
 
     @Override
