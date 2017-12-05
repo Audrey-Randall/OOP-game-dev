@@ -16,7 +16,8 @@ public class EntityFactory {
         ENEMY,
         HAT,
         COSMETIC, 
-        FOOD;
+        FOOD,
+        BOX;
     }
 
     private GameWorld world;
@@ -96,6 +97,15 @@ public class EntityFactory {
 					new BoxCollider(),
 					world
 				);
+            case BOX:
+            	Entity en = new Entity(
+            			// TODO: Find a new sprite for boxes.
+            			new StaticSprite(TextureMap.get("tileset"),8,8,3),
+            			new EmptyBehavior(),
+            			new BoxCollider(true, true),
+            			world
+            	);
+            	return en;
             	
             default:
                 throw new IllegalArgumentException("Invalid entity type!");

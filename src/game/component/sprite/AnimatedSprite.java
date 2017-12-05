@@ -6,43 +6,27 @@ import mote4.util.shader.Uniform;
 import mote4.util.texture.Texture;
 import mote4.util.vertex.mesh.MeshMap;
 
-public class AnimatedSprite extends Sprite {
-
-    private ModelMatrix model;
-    private Texture texture;
-    private int tileX, tileY, frames, currentFrame, maxDelay, delay;
+public class AnimatedSprite extends StaticSprite {
+    private int frames, currentFrame, maxDelay, delay;
 
     public AnimatedSprite(Texture t, int tileX, int tileY, int frames, int delay) {
-        texture = t;
-        this.tileX = tileX;
-        this.tileY = tileY;
+    	super(t, tileX, tileY, 0);
+        
         this.frames = frames;
         this.delay = maxDelay = delay;
         currentFrame = 0;
-
-        model = new ModelMatrix();
     }
 
     @Override
     public void render() {
-
         if (delay <= 0) {
             currentFrame++;
             currentFrame %= frames;
+            setSprite(currentFrame);
             delay = maxDelay;
         } else
             delay--;
 
-        model.push();
-        {
-            model.translate((int)entity.posX(), (int)entity.posY());
-            model.scale((float)entity.width(), (float)entity.height(), 1);
-            ShaderMap.use("spritesheet");
-            Uniform.vec("spriteInfo", tileX, tileY, currentFrame);
-            texture.bind();
-            model.bind();
-            MeshMap.render("quad");
-        }
-        model.pop();
+        super.render();
     }
 }
