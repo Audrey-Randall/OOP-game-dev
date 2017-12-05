@@ -3,6 +3,8 @@ package main;
 import game.GameWorld;
 import game.ScrollingBackground;
 import game.component.Postprocess;
+import java.awt.*;
+import javax.swing.*;
 import mote4.scenegraph.Window;
 import mote4.util.ErrorUtils;
 import mote4.util.shader.ShaderUtils;
@@ -32,6 +34,7 @@ public class Main {
         //glEnable(GL_CULL_FACE);
 
         loadResources();
+        getCredentials();
 
         FixedResolutionLayer l = new FixedResolutionLayer();
         l.addScene(new ScrollingBackground());
@@ -57,5 +60,24 @@ public class Main {
         MeshMap.add(StaticMeshBuilder.constructVAOFromOBJ("openCylinder",true), "background");
 
         ErrorUtils.checkGLError();
+    }
+    
+    private static void getCredentials() {
+    	JFrame frame = new JFrame();
+    	JPanel panel = new JPanel(new BorderLayout(5, 5));
+
+        JPanel label = new JPanel(new GridLayout(0, 1, 2, 2));
+        label.add(new JLabel("Username", SwingConstants.RIGHT));
+        panel.add(label, BorderLayout.WEST);
+
+        JPanel controls = new JPanel(new GridLayout(0, 1, 2, 2));
+        JTextField username = new JTextField();
+        controls.add(username);
+        panel.add(controls, BorderLayout.CENTER);
+
+        JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE);
+        
+        String uname = username.getText();
+        Database.getInstance().addUser(uname);
     }
 }

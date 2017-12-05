@@ -8,7 +8,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * Centralized input management.  All input checks for the game should be done
- * through this class, as it provides and easy-to-edit abstraction.
+ * through this class, as it provides an easy-to-edit abstraction.
  * @author Peter
  */
 public class Input {
