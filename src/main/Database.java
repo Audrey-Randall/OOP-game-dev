@@ -1,6 +1,8 @@
 package main;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -33,8 +35,23 @@ public class Database {
     	return conn;
     }
 	
-	private String[] getScores() {
-		return new String[] {"Testing | testing | testing", "abcdef | ghijkl | asdfsdf"};
+	public List<String> getScores() {
+		String sql = "SELECT * FROM Scores";
+		List<String> results = new ArrayList<String>();
+		try (Connection conn = connect();
+        		PreparedStatement ps = conn.prepareStatement(sql)) {
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String name = rs.getString(2);
+				float score = rs.getFloat(3);
+				results.add(name+" | "+score);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		//return new String[] {"Testing | testing | testing", "abcdef | ghijkl | asdfsdf"};
+		return results;
 	}
 	
 	private int getNewId() {
