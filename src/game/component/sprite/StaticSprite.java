@@ -32,8 +32,12 @@ public class StaticSprite extends Sprite {
     public void render() {
         model.push();
         {
-            model.translate((int)(entity.posX()+offsetX), (int)(entity.posY()+offsetY));
-            model.scale((float)entity.width(), (float)entity.height(), 1);
+        	float trueOffsetX = offsetX;
+        	float trueOffsetY = offsetY;
+        	if (scaleX < 0) trueOffsetX += entity.width();
+        	if (scaleY < 0) trueOffsetY += entity.height();
+            model.translate((int)(entity.posX()+trueOffsetX), (int)(entity.posY()+trueOffsetY));
+            model.scale((float)entity.width()*scaleX, (float)entity.height()*scaleY, 1);
             ShaderMap.use("spritesheet");
             Uniform.vec("spriteInfo", tileX, tileY, frame);
             texture.bind();
@@ -51,5 +55,10 @@ public class StaticSprite extends Sprite {
     public void setOffset(float X, float Y){
     	offsetX = X;
     	offsetY = Y;
+    }
+    
+    public void setScale(float sX, float sY){
+    	scaleX = sX;
+    	scaleY = sY;
     }
 }

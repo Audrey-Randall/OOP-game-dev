@@ -1,10 +1,6 @@
 package game.component.sprite;
 
-import mote4.util.matrix.ModelMatrix;
-import mote4.util.shader.ShaderMap;
-import mote4.util.shader.Uniform;
 import mote4.util.texture.Texture;
-import mote4.util.vertex.mesh.MeshMap;
 
 public class AnimatedSprite extends StaticSprite {
     private int frames, currentFrame, maxDelay, delay;

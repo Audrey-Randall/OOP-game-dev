@@ -66,6 +66,7 @@ public class PlayerBehavior extends Behavior {
 		float speed;
 		PlayerBehavior.character character;
 		
+		
 		public CharacterInfo(PlayerBehavior.character characterType) {
 			character = characterType;
 		}
