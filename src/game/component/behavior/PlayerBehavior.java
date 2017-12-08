@@ -25,6 +25,7 @@ public class PlayerBehavior extends Behavior {
     float OPOSSUM_SPEED = (float).8;
     float JUMP_HEIGHT = 16;
     private boolean[] isDead = new boolean[3];
+    boolean dontKillPossum = false;
     
     public boolean getIsCharacterDead(int characterIndex) {
     	return isDead[characterIndex];
@@ -82,7 +83,8 @@ public class PlayerBehavior extends Behavior {
 		
 		private void decreaseHealth(float update) {
 			if (!getIsCharacterDead(character.index))
-				health -= update;
+				if(!dontKillPossum)
+					health -= update;
 			if (health <= 0) {
 				setHealth(0);
 				setTimer(0);
@@ -177,6 +179,7 @@ public class PlayerBehavior extends Behavior {
     
     class PossumBehavior {
     	void playDead() {
+    		dontKillPossum = true;
     		System.out.println("Possum Special Behavior");
     	}
     }
@@ -251,15 +254,30 @@ public class PlayerBehavior extends Behavior {
     		Window.destroy();
     	
     	printCounter += Window.delta();
+    	if (currentCharacter != character.OPOSSUM) {
     	
-    	//Boosts health of unused characters and wears out character in use
-    	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
-    	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
-    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
-    	
-    	characterStats[0].updateTimer(Window.delta());
-    	characterStats[1].updateTimer(Window.delta());
-    	characterStats[2].updateTimer(Window.delta());
+	    	//Boosts health of unused characters and wears out character in use
+	    	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
+	    	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+	    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+	    	
+	    	characterStats[0].updateTimer(Window.delta());
+	    	characterStats[1].updateTimer(Window.delta());
+	    	characterStats[2].updateTimer(Window.delta());
+    	}
+    	else {
+    		if (!dontKillPossum) {
+    	    	//Boosts health of unused characters and wears out character in use
+    	    	tickHealth(currentCharacter, (float)Window.delta() / HEALTH_SCALE_FACTOR);
+    		}
+	    	boostHealth(currentCharacter.next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+	    	boostHealth(currentCharacter.next().next(), (float)Window.delta() / HEALTH_SCALE_FACTOR);
+	    	
+	    	characterStats[0].updateTimer(Window.delta());
+	    	characterStats[1].updateTimer(Window.delta());
+	    	characterStats[2].updateTimer(Window.delta());
+   
+    	}
     	
     	if (printCounter > 3) {
     		printStats();
@@ -267,6 +285,7 @@ public class PlayerBehavior extends Behavior {
     	}
     	
     	 if (Input.getInstance().isKeyNew(Input.Key.DOWN)) {
+    		 dontKillPossum = false;
     		 switchCharacter();
     	 }
     	
@@ -328,7 +347,7 @@ public class PlayerBehavior extends Behavior {
         velY += GRAVITY; // gravity
         if (jumpsLeft > 0 && Input.getInstance().isKeyNew(Input.Key.UP)) {
         	 if (!getIsCharacterDead(currentCharacter.index)) {
-	            velY = -JUMP_HEIGHT;
+	            velY = -(JUMP_HEIGHT/characterStats[currentCharacter.index].getSpeed());
 	            jumpsLeft--;
         	}
         	else {
