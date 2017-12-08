@@ -30,6 +30,8 @@ public class PlayerSprite extends Sprite {
     @Override
     public void render() {
     	PlayerBehavior behavior = (PlayerBehavior)(entity.getBehavior());
+    	if (behavior.getFacingRight()) SPRITES[index].setScale(1, 1);
+    	else SPRITES[index].setScale(-1, 1);
         SPRITES[index].render();
         if (behavior.getHat() != null)
             behavior.getHat().getSprite().render();
