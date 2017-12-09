@@ -8,7 +8,7 @@ public class MainMenuBehavior extends MenuBehavior {
     public MainMenuBehavior(MenuHandler h) {
         super(h);
         title = "Main Menu";
-        elements = new String[] {"Level Select", "Options", "Leaderboards", "Quit"};
+        elements = new String[] {"Level Select", "Options", "Leaderboards", "Help", "Quit"};
     }
 
     @Override
@@ -23,6 +23,9 @@ public class MainMenuBehavior extends MenuBehavior {
             case "Leaderboards":
             	handler.openMenu(new LeaderboardBehavior(handler));
                 break;
+            case "Help":
+            	handler.openMenu(new HelpBehavior(handler));
+            	break;
             case "Quit":
                 Window.destroy();
                 break;
