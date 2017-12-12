@@ -2,6 +2,7 @@ package menu.behavior;
 
 import menu.MenuHandler;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import game.GameWorld;
@@ -24,7 +25,13 @@ public class LeaderboardBehavior extends MenuBehavior {
     	PlayerBehavior pb = (PlayerBehavior)game.GameWorld.getInstance().getPlayer().getBehavior();
     	int score = pb.getScore();
     	main.Database.getInstance().updateScore(score);
-    	List<String> scoreList = main.Database.getInstance().getScores();
+    	List<String> scoreList = new ArrayList<String>();
+    	try {
+    		scoreList.addAll(main.Database.getInstance().getScores());
+    	} catch (Exception e) {
+    		e.getMessage();
+    		scoreList.add("Database is down; \nplease check back later.");
+    	}
     	String[] scoreArr = scoreList.toArray(new String[scoreList.size()]);
     	return scoreArr;
     }

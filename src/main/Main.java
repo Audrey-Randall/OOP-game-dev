@@ -78,6 +78,11 @@ public class Main {
         JOptionPane.showMessageDialog(frame, panel, "login", JOptionPane.QUESTION_MESSAGE);
         
         String uname = username.getText();
-        Database.getInstance().addUser(uname);
+        try {
+        	Database.getInstance().addUser(uname);
+        } catch (Exception e) {
+        	System.out.println("Database is down.");
+        	e.getMessage();
+        }
     }
 }
